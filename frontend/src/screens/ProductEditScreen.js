@@ -64,8 +64,8 @@ export default function ProductEditScreen(props){
         const bodyFormData = new FormData();
         bodyFormData.append('image', file);
         setLoadingUpload(true);
-        /*try {*/
-            /*const {data} =*/ await Axios.post('/api/uploads', bodyFormData, {
+        try {
+            const {data} = await Axios.post('/api/uploads', bodyFormData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${userInfo.token}`,
@@ -78,9 +78,9 @@ export default function ProductEditScreen(props){
                 setErrorUpload(error.message);
                 setLoadingUpload(false);
             }); 
-        /*} catch (error) {
-            
-        }*/
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return(
