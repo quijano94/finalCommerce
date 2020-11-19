@@ -29,6 +29,14 @@ function App() {
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
 
+    const openMenu = () =>{
+        document.querySelector('.sidebar').classList.add('open');
+    };
+
+    const closeMenu = () =>{
+        document.querySelector('.sidebar').classList.remove('open');
+    };
+
     const signoutHandler = () =>{
         dispatch(signout());
     }
@@ -36,7 +44,8 @@ function App() {
       <BrowserRouter>
     <div className="grid-container">
             <header className="row">
-                <div>
+                <div className="brand">
+                    <button onClick={openMenu}>&#9776;</button>
                     <Link className="brand" to="/">amazona</Link>
                 </div>
                 <div>
@@ -95,6 +104,20 @@ function App() {
                     
                 </div>
             </header>
+            <aside className="sidebar">
+                    <h3>Shopping Categories</h3>
+                    <button className="sidebar-close-button" onClick={closeMenu}>
+                        x
+                    </button>
+                    <ul className="categories">
+                        <li>
+                            <Link to="/category/Pants">Pants</Link>
+                        </li>
+                        <li>
+                            <Link to="/category/Shirts">Shirts</Link>
+                        </li>
+                    </ul>
+            </aside>
             <main>
                 {/*Rutas privadas que no se pueden accessar sin un logeo*/}
                 <PrivateRoute path="/placeorder" component={PlaceOrderScreen} ></PrivateRoute>
@@ -114,6 +137,7 @@ function App() {
                 <Route path="/register" component={RegisterScreen} ></Route>
                 <Route path="/signin" component={SigninScreen} ></Route>
                 <Route path="/cart/:id?" component={CartScreen} ></Route>
+                <Route path="/category/:id" component={HomeScreen} exact></Route>
                 <Route path="/" component={HomeScreen} exact></Route>
                 
                 <Route exact path="/product/:id/edit" component={ProductEditScreen} ></Route>

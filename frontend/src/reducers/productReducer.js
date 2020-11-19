@@ -16,7 +16,11 @@ const {
     PRODUCT_DELETE_REQUEST,
     PRODUCT_DELETE_SUCCESS,
     PRODUCT_DELETE_FAIL,
-    PRODUCT_DELETE_RESET
+    PRODUCT_DELETE_RESET,
+    PRODUCT_REVIEW_SAVE_REQUEST,
+    PRODUCT_REVIEW_SAVE_SUCCESS,
+    PRODUCT_REVIEW_SAVE_FAIL,
+    PRODUCT_REVIEW_SAVE_RESET
 } = require("../constants/productConstants");
 
 export const productListReducer = (state = {
@@ -35,7 +39,7 @@ export const productListReducer = (state = {
     }
 };
 
-export const productDetailsReducer = (state = { loading:true}, action) =>{
+export const productDetailsReducer = (state = {product:{reviews:[]}, loading:true}, action) =>{
 
     switch(action.type){
         case PRODUCT_DETAILS_REQUEST:
@@ -88,6 +92,21 @@ export const productDeleteReducer = (state = {}, action) =>{
         case PRODUCT_DELETE_FAIL:
             return {loading: false, error: action.payload};
         case PRODUCT_DELETE_RESET:
+            return {};
+        default:
+            return state;
+    }
+};
+
+export const productReviewSaveReducer = (state = {}, action) =>{
+    switch(action.type){
+        case PRODUCT_REVIEW_SAVE_REQUEST:
+            return {loading: true};
+        case PRODUCT_REVIEW_SAVE_SUCCESS:
+            return {loading: false, review: action.payload, success: true};
+        case PRODUCT_REVIEW_SAVE_FAIL:
+            return {loading: false, error: action.payload};
+        case PRODUCT_REVIEW_SAVE_RESET:
             return {};
         default:
             return state;

@@ -20,6 +20,11 @@ export default function ProductEditScreen(props){
     const {loading, error, product} = productDetails;
     const productUpdate = useSelector(state => state.productUpdate);
     const {loading: loadingUpdate, error:errorUpdate, success:succesUpdate} = productUpdate;
+    const [loadingUpload, setLoadingUpload] = useState(false);
+    const [errorUpload, setErrorUpload] = useState('');
+
+    const userSignin = useSelector(state => state.userSignin);
+    const {userInfo} = userSignin;
 
     const dispatch = useDispatch();
     useEffect(() =>{
@@ -54,30 +59,28 @@ export default function ProductEditScreen(props){
         }));
     };
 
-    const [loadingUpload, setLoadingUpload] = useState(false);
-    const [errorUpload, setErrorUpload] = useState('');
-
-    const userSignin = useSelector(state => state.userSignin);
-    const {userInfo} = userSignin;
-
     const uploadFileHandler = async(e) =>{
         const file = e.target.files[0];
         const bodyFormData = new FormData();
         bodyFormData.append('image', file);
         setLoadingUpload(true);
-        try {
-            const {data} = await Axios.post('/api/uploads', bodyFormData, {
+        /*try {*/
+            /*const {data} =*/ await Axios.post('/api/uploads', bodyFormData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${userInfo.token}`,
                 }
-            });
-            setImage(data);
-            setLoadingUpload(false);
-        } catch (error) {
-            setErrorUpload(error.message);
-            setLoadingUpload(false);
-        }
+            }).then((response) =>{
+                setImage(response.data);
+                setLoadingUpload(false);
+            }).catch((error)=>{
+                console.log(error);
+                setErrorUpload(error.message);
+                setLoadingUpload(false);
+            }); 
+        /*} catch (error) {
+            
+        }*/
     };
 
     return(

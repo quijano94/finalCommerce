@@ -2,7 +2,7 @@ import multer from 'multer';
 import express from 'express';
 import { isAuth } from '../util.js';
 
-const uploadRouter = express();
+const uploadRouter = express.Router();
 
 const storage = multer.diskStorage({
     destination(req, file, cb){
