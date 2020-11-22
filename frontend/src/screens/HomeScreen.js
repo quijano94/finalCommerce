@@ -35,12 +35,12 @@ export default function HomeScreen(props){
             {category && (<h2>{category}</h2>)}
 
             <ul className="filter">
-                <li>
+                {/*<li>
                     <form onSubmit={submitHandler}>
                         <input name="searchKeyword" onChange={(e) => setSearchKeyword(e.target.value)}></input>
                         <button type="submit">Search</button>
                     </form>
-                </li>
+                </li>*/}
                 <li>
                     Sort By {' '}
                     <select name="sortOrder" onChange={sortHandler}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Link, Route } from 'react-router-dom';
 import { signout } from './actions/userActions';
@@ -18,6 +18,7 @@ import SigninScreen from './screens/SigninScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
+import { listProducts } from './actions/productActions';
 
 
 function App() {
@@ -37,16 +38,32 @@ function App() {
         document.querySelector('.sidebar').classList.remove('open');
     };
 
+    const category = '';
+    const[searchKeyword, setSearchKeyword] = useState('');
+
     const signoutHandler = () =>{
         dispatch(signout());
     }
+
+    const submitHandler = (e) =>{
+        e.preventDefault();
+        dispatch(listProducts(category, searchKeyword));
+    };
   return ( 
       <BrowserRouter>
     <div className="grid-container">
             <header className="row">
-                <div className="brand">
-                    <button onClick={openMenu}>&#9776;</button>
+                <div>
+                    <button className="open-sidebar" onClick={openMenu}>&#9776;</button>
                     <Link className="brand" to="/">amazona</Link>
+                </div>
+                <div>
+                    <form className="search" onSubmit={submitHandler}>
+                        <div className="row">
+                            <input name="searchKeyword" onChange={(e) => setSearchKeyword(e.target.value)}></input>
+                            <button className="primary" type="submit"><i className="fa fa-search"></i></button>
+                        </div>
+                    </form>
                 </div>
                 <div>
                     <Link to="/cart">Cart
