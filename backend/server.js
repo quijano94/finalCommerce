@@ -41,7 +41,11 @@ app.use('/api/orders', orderRouter);
 app.get('/api/config/paypal', (req,res) =>{
     res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
     //Para que funcione bien paypal, en vez de crear una cuenta de sandbox, debe de ser una de live. Y en env de root cambiar el clientId que sale
-})
+});
+/*app.get('/api/uploads/s3', (req,res) =>{
+    res.send(process.env.accessKeyID || 'accessKeyId');
+    res.send(process.env.secretAccesKey || 'secretAccessKey');
+})*/
 const __dirname = path.resolve();
 app.use('/uploads',express.static(path.join(__dirname, '/uploads')));
 app.use(express.static(path.join(__dirname, '/frontend/build')));
