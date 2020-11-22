@@ -3,8 +3,10 @@ import express from 'express';
 import { isAuth } from '../util.js';
 import multerS3 from 'multer-s3';
 import aws from 'aws-sdk';
+import dotenv from 'dotenv';
 
 const uploadRouter = express.Router();
+dotenv.config();
 
 const storage = multer.diskStorage({
     destination(req, file, cb){
@@ -21,15 +23,16 @@ uploadRouter.post('/', isAuth, upload.single('image'), (req,res) =>{
     res.send(`/${req.file.path}`); 
 });
 
+/*Se almacenan donde va el .env pero del JWTSecret*/
 aws.config.update({
-    accessKeyId: (process.env.accessKeyId || 'AKIAIFRHSNVCBC4C3DLA'),
-    secretAccessKey: (process.env.secretAccessKey || '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'),
+    accessKeyId: process.env.ACCESSKEYID,
+    secretAccessKey: process.env.SECRETACCESSKEY,
 });
 
 const s3 = new aws.S3();
 const storageS3 = multerS3({
     s3,
-    bucket: 'commerce-bucket',
+    bucket: process.env.BUCKET_NAME,
     acl: 'public-read',
     contentType: multerS3.AUTO_CONTENT_TYPE,
     key(req,file,cb){
