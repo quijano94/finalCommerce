@@ -123,10 +123,52 @@ function App() {
                 </div>
             </header>
             <aside className="sidebar">
-                    <h3>Shopping Categories</h3>
+                    <h3>Hola, {userInfo ? userInfo.name : (<Link to="/signin">Identificate</Link>)}</h3>
                     <button className="sidebar-close-button" onClick={closeMenu}>
                         x
                     </button>
+                    {
+                        userInfo && (
+                            <>
+                            <ul className="categories">
+                                <li>
+                                    <Link to="/profile">Profile</Link>
+                                </li>
+                                <li>
+                                    <Link to="/orderhistory">Order History</Link>
+                                </li>
+                                <li>
+                                    <Link to="#signout" onClick={signoutHandler}>Sign Out</Link>
+                                </li>
+                            </ul> 
+                            {userInfo.isAdmin && (<hr></hr>)}
+                            </>
+                        )
+                    }
+                    {
+                         userInfo && userInfo.isAdmin && (
+                           
+                            <ul className="categories">
+                                <li>
+                                    <h3>Admin</h3>
+                                </li>
+                                <li>
+                                    <Link to="/dashboard">Dashboard</Link>
+                                </li>
+                                <li>
+                                    <Link to="/productlist">Products</Link>
+                                </li>
+                                <li>
+                                    <Link to="/orderlist">Orders</Link>
+                                </li>
+                                <li>
+                                    <Link to="/userlist">Users</Link>
+                                </li>
+                            </ul>
+                            
+                         )
+                    }
+                    <hr></hr>
                     <ul className="categories">
                         <li>
                             <Link to="/category/Pants">Pants</Link>
