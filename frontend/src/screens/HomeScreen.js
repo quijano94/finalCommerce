@@ -1,4 +1,4 @@
-import React, { useEffect, useState,} from 'react';
+import React, { useEffect, /*useState,*/} from 'react';
 import Product from '../components/Product';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -9,8 +9,8 @@ export default function HomeScreen(props){
 
     const category = props.match.params.id ? props.match.params.id : '';
 
-    const[searchKeyword, setSearchKeyword] = useState('');
-    const[sortOrder, setSortOder] = useState('');
+   /* const[searchKeyword, setSearchKeyword] = useState('');
+    const[sortOrder, setSortOder] = useState('');*/
     
     const dispatch = useDispatch();
     const productList = useSelector(state => state.productList);
@@ -20,7 +20,7 @@ export default function HomeScreen(props){
         dispatch(listProducts(category));
     }, [dispatch, category]);
 
-    const submitHandler = (e) =>{
+    /*const submitHandler = (e) =>{
         e.preventDefault();
         dispatch(listProducts(category, searchKeyword, sortOrder));
     };
@@ -28,19 +28,19 @@ export default function HomeScreen(props){
     const sortHandler = (e) =>{
         setSortOder(e.target.value);
         dispatch(listProducts(category, searchKeyword, sortOrder));
-    }
+    }*/
 
     return(
         <>
             {category && (<h2>{category}</h2>)}
 
-            <ul className="filter">
-                {/*<li>
+            {/*<ul className="filter">
+                <li>
                     <form onSubmit={submitHandler}>
                         <input name="searchKeyword" onChange={(e) => setSearchKeyword(e.target.value)}></input>
                         <button type="submit">Search</button>
                     </form>
-                </li>*/}
+                </li>
                 <li>
                     Sort By {' '}
                     <select name="sortOrder" onChange={sortHandler}>
@@ -49,7 +49,7 @@ export default function HomeScreen(props){
                         <option value="highest">Highest</option>
                     </select>
                 </li>
-            </ul>
+            </ul>*/}
             {loading ? (
                 <LoadingBox></LoadingBox>
             ):

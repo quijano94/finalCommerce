@@ -19,6 +19,7 @@ import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import { listProducts } from './actions/productActions';
+import UserListScreen from './screens/UserListScreen';
 
 
 function App() {
@@ -146,7 +147,8 @@ function App() {
 
                 {/*Rutas de administrador para que exista logeo exclusivo de admin*/}
                 <AdminRoute path="/productlist" component={ProductListScreen}></AdminRoute> 
-                <AdminRoute path="/orderlist" component={OrderListScreen}></AdminRoute>              
+                <AdminRoute path="/orderlist" component={OrderListScreen}></AdminRoute>  
+                <AdminRoute path="/userlist" component={UserListScreen}></AdminRoute>              
                 
 
                 {/*Rutas que pueden acceder sin logeo o sin información pasada*/}
