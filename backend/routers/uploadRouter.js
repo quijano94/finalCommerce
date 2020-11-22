@@ -25,8 +25,8 @@ uploadRouter.post('/', isAuth, upload.single('image'), (req,res) =>{
 
 /*Se almacenan donde va el .env pero del JWTSecret*/
 aws.config.update({
-    accessKeyId: process.env.ACCESSKEYID,
-    secretAccessKey: process.env.SECRETACCESSKEY,
+    accessKeyId: (process.env.ACCESSKEYID || 'ACCESSKEYID'),
+    secretAccessKey: (process.env.SECRETACCESSKEY || 'SECRETACCESSKEY'),
 });
 
 const s3 = new aws.S3();
