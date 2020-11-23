@@ -24,8 +24,6 @@ import CookieConsent/*, { Cookies }*/ from "react-cookie-consent";
 
 
 function App() {
-
-    const validCookieTerm = localStorage.getItem('acceptCookies');
     const dispatch = useDispatch();
     const cart = useSelector( state => state.cart);
     const {cartItems} = cart;
@@ -168,7 +166,6 @@ function App() {
             <footer className="row center">
                 Todos los derechos reservados
             </footer>
-            {validCookieTerm === null &&(
             <CookieConsent
                 style={{
                     background: "#a4a4a4"
@@ -178,11 +175,11 @@ function App() {
                 }}
                 buttonText="Entendido"
                 onAccept={() => {
-                    localStorage.setItem("acceptCookies", 'true');
+                    //localStorage.setItem("acceptCookies", 'true');
                 }}
             >
                 Éste sitio web usa cookies, si permanece aquí acepta su uso. Puede leer más sobre el uso de cookies en nuestra <Link to="/politica">política de privacidad</Link>.
-            </CookieConsent>)}
+            </CookieConsent>
         </div>
         </BrowserRouter>
   );
