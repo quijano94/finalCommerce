@@ -20,9 +20,11 @@ import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import { listProducts } from './actions/productActions';
 import UserListScreen from './screens/UserListScreen';
+import CookieConsent/*, { Cookies }*/ from "react-cookie-consent";
 
 
 function App() {
+
 
     const dispatch = useDispatch();
     const cart = useSelector( state => state.cart);
@@ -166,6 +168,20 @@ function App() {
             <footer className="row center">
                 Todos los derechos reservados
             </footer>
+            <CookieConsent
+                buttonText="Entendido"
+                onAccept={() => {
+                    //localStorage.setItem("acceptCookies", 'true');
+                }}
+                debug={true}
+                /*enableDeclineButton
+                declineButtonText="Decline (optional)"
+                onDecline={() => {
+                    alert("nay!");
+                }}*/
+            >
+                Éste sitio web usa cookies, si permanece aquí acepta su uso. Puede leer más sobre el uso de cookies en nuestra <Link to="/politica">política de privacidad</Link>.
+            </CookieConsent>
         </div>
         </BrowserRouter>
   );

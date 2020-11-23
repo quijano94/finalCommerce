@@ -4,7 +4,6 @@ import { deleteOrder, listOrders } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { ORDER_DELETE_RESET } from '../constants/orderConstants';
-import { orderDeleteReducer } from '../reducers/orderReducers';
 
 export default function OrderListScreen(props){
 
