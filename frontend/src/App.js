@@ -20,10 +20,13 @@ import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import { listProducts } from './actions/productActions';
 import UserListScreen from './screens/UserListScreen';
-import CookieConsent/*, { Cookies }*/ from "react-cookie-consent";
+import CookieConsent, { Cookies } from "react-cookie-consent";
 
 
 function App() {
+
+    const extractCookie = Cookies.get("acceptTerms");
+    console.log(extractCookie);
     const dispatch = useDispatch();
     const cart = useSelector( state => state.cart);
     const {cartItems} = cart;
@@ -167,6 +170,8 @@ function App() {
                 Todos los derechos reservados
             </footer>
             <CookieConsent
+                cookieName="acceptTerms"
+                expires={10}
                 style={{
                     background: "#a4a4a4"
                 }}
