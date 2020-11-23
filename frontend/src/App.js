@@ -170,16 +170,16 @@ function App() {
             </footer>
             {validCookieTerm === null &&(
             <CookieConsent
+                style={{
+                    background: "#a4a4a4"
+                }}
+                buttonStyle={{
+                    background: "#f0c040",
+                }}
                 buttonText="Entendido"
                 onAccept={() => {
                     localStorage.setItem("acceptCookies", 'true');
                 }}
-                debug={true}
-                /*enableDeclineButton
-                declineButtonText="Decline (optional)"
-                onDecline={() => {
-                    alert("nay!");
-                }}*/
             >
                 Éste sitio web usa cookies, si permanece aquí acepta su uso. Puede leer más sobre el uso de cookies en nuestra <Link to="/politica">política de privacidad</Link>.
             </CookieConsent>)}
