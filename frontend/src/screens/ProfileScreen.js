@@ -17,7 +17,7 @@ export default function ProfileScreen(props){
     const userDetails = useSelector(state => state.userDetails);
     const {loading, error, user} = userDetails;
     const userUpdateProfile = useSelector(state => state.userUpdateProfile);
-    const {loading:loadingUpdate , success:successUpdate, error:errorUpdate} = userUpdateProfile
+    const {loading:loadingUpdate , success:successUpdate, error:errorUpdate} = userUpdateProfile;
     const dispatch = useDispatch();
 
     useEffect(() =>{

@@ -20,13 +20,14 @@ import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import { listProducts } from './actions/productActions';
 import UserListScreen from './screens/UserListScreen';
-import CookieConsent, { Cookies } from "react-cookie-consent";
+import CookieConsent/*, { Cookies }*/ from "react-cookie-consent";
+import UserEditScreen from './screens/UserEditScreen';
 
 
 function App() {
 
-    const extractCookie = Cookies.get("acceptTerms");
-    console.log(extractCookie);
+    //const extractCookie = Cookies.get("acceptTerms");
+    //console.log(extractCookie);
     const dispatch = useDispatch();
     const cart = useSelector( state => state.cart);
     const {cartItems} = cart;
@@ -152,7 +153,8 @@ function App() {
                 {/*Rutas de administrador para que exista logeo exclusivo de admin*/}
                 <AdminRoute path="/productlist" component={ProductListScreen}></AdminRoute> 
                 <AdminRoute path="/orderlist" component={OrderListScreen}></AdminRoute>  
-                <AdminRoute path="/userlist" component={UserListScreen}></AdminRoute>              
+                <AdminRoute path="/userlist" component={UserListScreen}></AdminRoute> 
+                <AdminRoute path="/user/:id/edit" component={UserEditScreen}></AdminRoute>              
                 
 
                 {/*Rutas que pueden acceder sin logeo o sin información pasada*/}

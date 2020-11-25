@@ -91,6 +91,22 @@ userRouter.delete('/:id', isAuth, isAdmin, expressAsyncHandler(async(req,res) =>
     }else{
         res.status(404).send({message: 'User Not Found'});
     }
+}));
+
+userRouter.put('/:id', isAuth, isAdmin, expressAsyncHandler(async(req,res) => {
+    const user = await User.findById(req.params.id);
+    if(user){
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+        //Parche debido al que el check en el editar perfil no jala bien, y el false no se cambia.
+        user.isSeller = (req.body.isSeller ? 'true': 'false') || (user.isSeller ? 'true': 'false');
+        user.isAdmin = (req.body.isAdmin ? 'true': 'false') || (user.isAdmin ? 'true' : 'false');
+
+        const updatedUser = await user.save();
+        res.send({message: 'User Updated', user:updatedUser});
+    }else{
+        res.status(404).send({message: 'User Not Found'});
+    }
 }))
 
 export default userRouter;
