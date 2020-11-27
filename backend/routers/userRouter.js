@@ -21,6 +21,7 @@ userRouter.post('/signin', expressAsyncHandler(async(req,res) =>{
                 _id: user._id,
                 name: user.name,
                 email: user.email,
+                isSeller: user.isSeller,
                 isAdmin: user.isAdmin,
                 token: generateToken(user)
             });
@@ -41,6 +42,7 @@ userRouter.post('/register', expressAsyncHandler(async(req,res) =>{
         _id: createdUser._id,
         name: createdUser.name,
         email: createdUser.email,
+        isSeller: createdUser.isSeller,
         isAdmin: createdUser.isAdmin,
         token: generateToken(createdUser)
     });
@@ -55,11 +57,17 @@ userRouter.get('/:id', expressAsyncHandler(async(req,res) =>{
     }
 }));
 
+//Actualizacion de la pestaña perfil
 userRouter.put('/profile', isAuth, expressAsyncHandler(async(req,res) =>{
     const user = await User.findById(req.user._id);
     if(user){
         user.name = req.body.name || user.name;
         user.email = req.body.email || user.email;
+        if(user.isSeller){
+            user.seller.name = req.body.sellerName || user.seller.name;
+            user.seller.logo = req.body.sellerLogo || user.seller.logo;
+            user.seller.description = req.body.sellerDescription || user.seller.description;
+        }
         if(req.body.password){
             user.password = bcrypt.hashSync(req.body.password, 8);
         }
@@ -69,6 +77,7 @@ userRouter.put('/profile', isAuth, expressAsyncHandler(async(req,res) =>{
             name: updatedUser.name,
             email: updatedUser.email,
             isAdmin: updatedUser.isAdmin,
+            isSeller: updatedUser.isSeller,
             token: generateToken(updatedUser),
         });
     }

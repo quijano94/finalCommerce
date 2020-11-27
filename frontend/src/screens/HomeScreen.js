@@ -8,6 +8,7 @@ import { listProducts } from '../actions/productActions';
 export default function HomeScreen(props){
 
     const category = props.match.params.id ? props.match.params.id : '';
+    const sellerMode = '';
 
    /* const[searchKeyword, setSearchKeyword] = useState('');
     const[sortOrder, setSortOder] = useState('');*/
@@ -17,7 +18,7 @@ export default function HomeScreen(props){
     const {loading, error, products} = productList;
 
     useEffect(() =>{
-        dispatch(listProducts(category));
+        dispatch(listProducts(sellerMode,category));
     }, [dispatch, category]);
 
     /*const submitHandler = (e) =>{

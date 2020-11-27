@@ -2,12 +2,15 @@ import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import data from '../data.js';
 import Product from '../models/productModel.js';
-import {isAdmin, isAuth} from '../util.js';
+import {isAdmin, isAuth, isSellerOrAdmin} from '../util.js';
 
 const productRouter = express();
 
 //Mostrart todos los productos que tambien funciona el filtaro de rango, y por palabras.
 productRouter.get('/', expressAsyncHandler(async(req,res)=>{
+    const seller = req.query.seller || '';
+    const sellerFilter  = seller ? {seller} : {};
+
     const category = req.query.category ? {category: req.query.category} : {};
     const searchKeyword  = req.query.searchKeyword ? {
         name: {
@@ -18,7 +21,7 @@ productRouter.get('/', expressAsyncHandler(async(req,res)=>{
     const sortOrder = req.query.sortOrder ? 
         (req.query.sortOrder ===  'lowest' ? {price:-1}:{price:1})
         :{ _id:-1};
-    const products = await Product.find({...category, ...searchKeyword}).sort(sortOrder);
+    const products = await Product.find({...sellerFilter,...category, ...searchKeyword}).sort(sortOrder);
     res.send(products);
 }));
 
@@ -40,9 +43,10 @@ productRouter.get('/:id', expressAsyncHandler(async(req,res)=>{
 }));
 
 //Este se usa cuando se agrega un producto, esta información sale por default y luego se edita.
-productRouter.post('/', isAuth, isAdmin, expressAsyncHandler(async(req,res) =>{
+productRouter.post('/', isAuth, isSellerOrAdmin, expressAsyncHandler(async(req,res) =>{
     const product = new Product({
         name: 'sample name ' + Date.now(),
+        seller: req.user._id,
         image: '/images/p1.jpg',
         price: 0,
         category: 'Sample category',
@@ -57,7 +61,7 @@ productRouter.post('/', isAuth, isAdmin, expressAsyncHandler(async(req,res) =>{
 }));
 
 //Actulizar un producto
-productRouter.put("/:id", isAuth, isAdmin, expressAsyncHandler(async(req, res) =>{
+productRouter.put("/:id", isAuth, isSellerOrAdmin, expressAsyncHandler(async(req, res) =>{
     const productId = req.params.id;
     const product = await Product.findById(productId);
     if(product){

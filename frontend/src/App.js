@@ -22,6 +22,7 @@ import { listProducts } from './actions/productActions';
 import UserListScreen from './screens/UserListScreen';
 import CookieConsent/*, { Cookies }*/ from "react-cookie-consent";
 import UserEditScreen from './screens/UserEditScreen';
+import SellerRoute from './components/SellerRoute';
 
 
 function App() {
@@ -103,6 +104,21 @@ function App() {
                         )
                     }
                     {
+                        userInfo && userInfo.isSeller && (
+                            <div className="dropdown">
+                                <Link to="#seller">Seller {' '} <i className="fa fa-caret-down"></i></Link>
+                                <ul className="dropdown-content">
+                                    <li>
+                                        <Link to="/productlist/seller">Products</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/orderlist/seller">Orders</Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        )
+                    }
+                    {
                         userInfo && userInfo.isAdmin && (
                             <div className="dropdown">
                                 <Link to="#admin">Admin {' '} <i className="fa fa-caret-down"></i></Link>
@@ -151,10 +167,15 @@ function App() {
                 <PrivateRoute path="/order/:id" component={OrderScreen} ></PrivateRoute>
 
                 {/*Rutas de administrador para que exista logeo exclusivo de admin*/}
-                <AdminRoute path="/productlist" component={ProductListScreen}></AdminRoute> 
-                <AdminRoute path="/orderlist" component={OrderListScreen}></AdminRoute>  
+                <AdminRoute path="/productlist" component={ProductListScreen} exact></AdminRoute> 
+                <AdminRoute path="/orderlist" component={OrderListScreen} exact></AdminRoute>  
                 <AdminRoute path="/userlist" component={UserListScreen}></AdminRoute> 
-                <AdminRoute path="/user/:id/edit" component={UserEditScreen}></AdminRoute>              
+                <AdminRoute path="/user/:id/edit" component={UserEditScreen}></AdminRoute>
+                <AdminRoute exact path="/product/:id/edit" component={ProductEditScreen} ></AdminRoute>  
+
+                {/*Rutas de venderor para que exista un logeo */}
+                <SellerRoute path="/productlist/seller" component={ProductListScreen}></SellerRoute>
+                <SellerRoute path="/orderlist/seller" component={OrderListScreen}></SellerRoute>  
                 
 
                 {/*Rutas que pueden acceder sin logeo o sin información pasada*/}
@@ -165,7 +186,7 @@ function App() {
                 <Route path="/category/:id" component={HomeScreen} exact></Route>
                 <Route path="/" component={HomeScreen} exact></Route>
                 
-                <Route exact path="/product/:id/edit" component={ProductEditScreen} ></Route>
+                
                 
             </main>
             <footer className="row center">

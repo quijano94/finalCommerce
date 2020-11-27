@@ -1,14 +1,17 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/OrderModel.js';
-import { isAdmin, isAuth } from '../util.js';
+import { isAdmin, isAuth, isSellerOrAdmin } from '../util.js';
 
 const orderRouter = express.Router();
 
-orderRouter.get('/', isAuth, isAdmin, expressAsyncHandler(async(req,res) =>{
+//Metodo para traer las ordenes en el administrador
+orderRouter.get('/', isAuth, isSellerOrAdmin, expressAsyncHandler(async(req,res) =>{
     /*Metodo populate, para llamar los datos de la otra tabla, ya que en la tabla Order solo se guarda el ID, si despues de user yo llamo otra
       otra variable ('name') es para traer el nombre de esa, en este caso haré que traiga todas.*/
-    const orders = await Order.find({}).populate('user'); 
+    const seller = req.query.seller || '';
+    const sellerFilter  = seller ? {seller} : {};
+    const orders = await Order.find({...sellerFilter}).populate('user'); 
     res.send(orders);
 }));
 
@@ -17,11 +20,13 @@ orderRouter.get('/mine', isAuth, expressAsyncHandler(async(req,res)=>{
     res.send(orders);
 }));
 
+//Metodo para ir llenando el carrito
 orderRouter.post('/', isAuth, expressAsyncHandler(async(req,res) =>{
     if(req.body.orderItems.length === 0){
         res.status(400).send({message: 'Cart is empty'});
     }else{
         const order = new Order({
+            seller: req.body.orderItems[0].seller,
             orderItems: req.body.orderItems,
             shippingAddress: req.body.shippingAddress,
             paymentMethod: req.body.paymentMethod,
