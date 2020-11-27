@@ -44,7 +44,8 @@ function App() {
     const closeMenu = () =>{
         document.querySelector('.sidebar').classList.remove('open');
     };
-
+    
+    const sellerId = '';
     const category = '';
     const[searchKeyword, setSearchKeyword] = useState('');
 
@@ -54,7 +55,7 @@ function App() {
 
     const submitHandler = (e) =>{
         e.preventDefault();
-        dispatch(listProducts(category, searchKeyword));
+        dispatch(listProducts(sellerId,category, searchKeyword));
     };
   return ( 
       <BrowserRouter>
