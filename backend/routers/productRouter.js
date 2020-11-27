@@ -21,7 +21,7 @@ productRouter.get('/', expressAsyncHandler(async(req,res)=>{
     const sortOrder = req.query.sortOrder ? 
         (req.query.sortOrder ===  'lowest' ? {price:-1}:{price:1})
         :{ _id:-1};
-    const products = await Product.find({...sellerFilter,...category, ...searchKeyword}).sort(sortOrder);
+    const products = await Product.find({...sellerFilter,...category, ...searchKeyword}).sort(sortOrder).populate('seller','seller.name seller.logo');
     res.send(products);
 }));
 
@@ -34,7 +34,7 @@ productRouter.get('/seed', expressAsyncHandler(async(req,res) =>{
 
 //Mostrar el producto
 productRouter.get('/:id', expressAsyncHandler(async(req,res)=>{
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate('seller','seller.name seller.logo seller.rating seller.numReviews');
     if(product){
         res.send(product);
     }else{

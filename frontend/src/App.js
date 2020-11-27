@@ -23,6 +23,7 @@ import UserListScreen from './screens/UserListScreen';
 import CookieConsent/*, { Cookies }*/ from "react-cookie-consent";
 import UserEditScreen from './screens/UserEditScreen';
 import SellerRoute from './components/SellerRoute';
+import SellerScreen from './screens/SellerScreen';
 
 
 function App() {
@@ -185,6 +186,7 @@ function App() {
                 <Route path="/cart/:id?" component={CartScreen} ></Route>
                 <Route path="/category/:id" component={HomeScreen} exact></Route>
                 <Route path="/" component={HomeScreen} exact></Route>
+                <Route path="/seller/:id" component={SellerScreen}></Route>
                 
                 
                 

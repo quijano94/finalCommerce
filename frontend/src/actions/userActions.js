@@ -71,13 +71,14 @@ export const signout = () => (dispatch) => {
     document.location.href='/signin';
 }
 
+//Metodo para mostrar a los usuarios
 export const detailsUser = (userId) => async(dispatch, getState) =>{
     dispatch({type: USER_DETAILS_REQUEST, payload:userId});
-    const { userSignin: {userInfo}} = getState();
+    //const { userSignin: {userInfo}} = getState();
     try {
-        const {data} = await Axios.get(`/api/users/${userId}`,{
+        const {data} = await Axios.get(`/api/users/${userId}`,/*{
             headers:{Authorization: `Bearer ${userInfo.token}`},
-        });
+        }*/);
         dispatch({type: USER_DETAILS_SUCCESS, payload: data});
         
     } catch (error) {
@@ -89,6 +90,7 @@ export const detailsUser = (userId) => async(dispatch, getState) =>{
     }
 };
 
+//Metodo para actualizar tu perfil con el que te logeas.
 export const updateUserProfile = (user) => async(dispatch,getState) =>{
     dispatch({type: USER_UPDATE_PROFILE_REQUEST, payload: user});
     const { userSignin: {userInfo}} = getState();
@@ -109,6 +111,7 @@ export const updateUserProfile = (user) => async(dispatch,getState) =>{
     }
 };
 
+//Metodo para actualizar la info del usuario de la lista de usuarios.
 export const updateUser = (user) => async(dispatch,getState) =>{
     dispatch({type: USER_UPDATE_REQUEST, payload: user});
     const { userSignin: {userInfo}} = getState();
