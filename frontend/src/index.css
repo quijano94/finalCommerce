@@ -482,3 +482,9 @@ input {
 .active {
   font-weight: bold;
 }
+
+/* Carousel */
+
+.carousel .slide img{
+  max-width: 30rem;
+}
