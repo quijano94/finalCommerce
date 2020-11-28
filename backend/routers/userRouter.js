@@ -41,6 +41,11 @@ userRouter.post('/register', expressAsyncHandler(async(req,res) =>{
         name: req.body.name, 
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 8),
+        seller:{
+            name: req.body.name,
+            logo: '',
+            description: ''
+        },
     });
     const createdUser = await user.save();
     res.send({
