@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Link, Route } from 'react-router-dom';
 import { signout } from './actions/userActions';
@@ -26,6 +26,8 @@ import SellerScreen from './screens/SellerScreen';
 import SearchBox from './components/SearchBox';
 import SearchScreen from './screens/SearchScreen';
 import { listProductCategories } from './actions/productActions';
+import MessageBox from './components/MessageBox';
+import LoadingBox from './components/LoadingBox';
 
 
 function App() {
@@ -35,18 +37,11 @@ function App() {
     const dispatch = useDispatch();
     const cart = useSelector( state => state.cart);
     const {cartItems} = cart;
-
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
-
-    const openMenu = () =>{
-        document.querySelector('.sidebar').classList.add('open');
-    };
-
-    const closeMenu = () =>{
-        document.querySelector('.sidebar').classList.remove('open');
-    };
-    
+    const [sidebarIsOpen, setSidebarIsOpen] = useState(false); 
+    const productCategoryList = useSelector(state => state.productCategoryList);
+    const {loading:loadingCategories, error:errorCategories, categories} = productCategoryList;   
 
     const signoutHandler = () =>{
         dispatch(signout());
@@ -60,7 +55,7 @@ function App() {
     <div className="grid-container">
             <header className="row">
                 <div>
-                    <button className="open-sidebar" onClick={openMenu}>&#9776;</button>
+                    <button type="button" className="open-sidebar" onClick={() => setSidebarIsOpen(true)}><i className="fa fa-bars"></i></button>
                     <Link className="brand" to="/">amazona</Link>
                 </div>
                 <div>
@@ -137,20 +132,28 @@ function App() {
                     
                 </div>
             </header>
-            <aside className="sidebar">
-                    <h3>Hola, {userInfo ? userInfo.name : (<Link to="/signin">Identificate</Link>)}</h3>
-                    <button className="sidebar-close-button" onClick={closeMenu}>
-                        x
-                    </button>
-                    <hr></hr>
-                    <ul className="categories">
-                        <li>
-                            <Link to="/category/Pants">Pants</Link>
-                        </li>
-                        <li>
-                            <Link to="/category/Shirts">Shirts</Link>
-                        </li>
-                    </ul>
+            <aside className={sidebarIsOpen ? 'open': ''}>
+                <ul className="categories">
+                    <li>
+                        <strong>Hola, {userInfo ? userInfo.name : (<Link to="/signin">Identificate</Link>)}</strong>
+                        <button onClick={() => setSidebarIsOpen(false)} className="close-sidebar" type="button">
+                            <i className="fa fa-close"></i>
+                        </button>
+                    </li>
+                    {
+                    loadingCategories ? (<LoadingBox></LoadingBox>)
+                    : 
+                    errorCategories ? (<MessageBox variant="danger">{errorCategories}</MessageBox>)
+                    : 
+                    (
+                        categories.map((c) => (
+                            <li key={c}>
+                                <Link to={`/search/category/${c}`} onClick={() => setSidebarIsOpen(false)}>{c}</Link>
+                            </li>
+                        ))
+                    )
+                    }
+                </ul>
             </aside>
             <main>
                 {/*Rutas privadas que no se pueden accessar sin un logeo*/}
