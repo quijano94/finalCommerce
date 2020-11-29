@@ -30,7 +30,7 @@ body{
 
 @media only screen and (max-width: 800px) {
   .grid-container {
-    grid-template-rows: 11rem 1fr 5rem;
+    grid-template-rows: 12rem 1fr 5rem;
   }
 }
 
@@ -190,6 +190,11 @@ img.small{
   width: 100%;
 }
 
+img.normal{
+  max-width: 15rem;
+  width: 100%;
+}
+
 img.medium{
   max-width: 29rem;
   width: 100%;
@@ -197,6 +202,19 @@ img.medium{
 
 img.large{
   width: 99%;
+}
+
+/*Edit Product Card */
+.product-card{
+  border: .1rem #c0c0c0 solid;
+  background-color: #f8f8f8;
+  border-radius: .5rem;
+  margin: 1rem;
+  max-width: 35rem;
+}
+
+.tWN{
+  white-space: normal !important;
 }
 
 /* Card */

@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { createProduct, deleteProduct, listProducts } from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import Rating from '../components/Rating';
 import { PRODUCT_CREATE_RESET, PRODUCT_DELETE_RESET } from '../constants/productConstants';
 
 export default function ProductListScreen(props){
@@ -61,7 +63,68 @@ export default function ProductListScreen(props){
             {loading ? <LoadingBox></LoadingBox>:
             error ? <MessageBox variant="danger">{error}</MessageBox>:
             (
-                <table className="table">
+                <>
+                {products.length === 0 && <MessageBox>No Products Found</MessageBox>}
+                <div className="row center">
+                    {
+                        products.map((product) => (
+                            <div key={product._id} className="product-card">
+                                <div className="card-body">
+                                    {/*<div className="row center tWN">
+                                        <strong>ID: {product._id}</strong>
+                                    </div>*/}
+                                    <div className="row center">
+                                        <Link to={`/product/${product._id}`}>
+                                            <img className="small" src={product.image} alt={product.name} />
+                                        </Link>
+                                    </div>
+                                    <div className="row center">
+                                        <Link to={`/product/${product._id}`}>
+                                            <h2>{product.name}</h2>
+                                        </Link>
+                                    </div>
+                                    <div className="row">
+                                        <div>
+                                            <strong>Price: </strong>${product.price}
+                                        </div>
+                                        <div>
+                                            <Rating rating={product.rating} numReviews={product.numReviews}></Rating>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div>
+                                            <strong>Category: </strong>
+                                        </div>
+                                        <div>
+                                            {product.category}
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div>
+                                            <strong>Brand: </strong>
+                                        </div>
+                                        <div>
+                                            {product.brand}
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div>
+                                            <button type="button" className="small" onClick={() => props.history.push(`/product/${product._id}/edit`)}>
+                                                Edit
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button type="button" className="small" onClick={() => deleteHandler(product)}>
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
+                {/*<table className="table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -96,7 +159,8 @@ export default function ProductListScreen(props){
                             ))
                         }
                     </tbody>
-                </table>
+                    </table>*/}
+                </>
             )
             }
         </div>
