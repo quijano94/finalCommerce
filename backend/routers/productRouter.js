@@ -10,6 +10,8 @@ const productRouter = express();
 productRouter.get('/', expressAsyncHandler(async(req,res)=>{
     const seller = req.query.seller || '';
     const sellerFilter  = seller ? {seller} : {};
+    const category = req.query.category || '';
+    const categoryFilter  = category ? {category} : {};
     const name = req.query.name || '';
     const nameFilter  = name ? {
         name :{
@@ -31,8 +33,14 @@ productRouter.get('/', expressAsyncHandler(async(req,res)=>{
     const products = await Product.find({...sellerFilter,...category, ...searchKeyword}).sort(sortOrder).populate('seller','seller.name seller.logo');
     */ 
 
-   const products = await Product.find({...sellerFilter,...nameFilter}).populate('seller','seller.name seller.logo');
+   const products = await Product.find({...sellerFilter,...nameFilter,...categoryFilter}).populate('seller','seller.name seller.logo');
     res.send(products);
+}));
+
+//Metodo para mostrar las categorias
+productRouter.get('/categories', expressAsyncHandler(async(req,res) =>{
+    const categories = await Product.find().distinct('category');
+    res.send(categories);
 }));
 
 //Agregar productos cuando se muda de servidor y es nuevo.

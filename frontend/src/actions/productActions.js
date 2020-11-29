@@ -18,14 +18,17 @@ import {
     PRODUCT_REVIEW_SAVE_REQUEST,
     PRODUCT_REVIEW_SAVE_SUCCESS,
     PRODUCT_REVIEW_SAVE_FAIL,
+    PRODUCT_CATEGORY_LIST_REQUEST,
+    PRODUCT_CATEGORY_LIST_SUCCESS,
+    PRODUCT_CATEGORY_LIST_FAIL,
  } from "../constants/productConstants"
 
-export const listProducts = ({seller = '', name = ''}/*seller = '',category = '', searchKeyword = '', sortOrder = ''*/) => async(dispatch) =>{
+export const listProducts = ({seller = '', name = '', category = '' }/*seller = '',category = '', searchKeyword = '', sortOrder = ''*/) => async(dispatch) =>{
     dispatch({
         type: PRODUCT_LIST_REQUEST
     });
     try {
-        const {data} = await Axios.get(`/api/products?seller=${seller}&name=${name}`);
+        const {data} = await Axios.get(`/api/products?seller=${seller}&name=${name}&category=${category}`);
         //const {data} = await Axios.get('/api/products?seller='+ seller +"&category=" +category +"&searchKeyword=" + searchKeyword + "&sortOrder=" +sortOrder );
         dispatch({
             type: PRODUCT_LIST_SUCCESS, payload: data
@@ -127,5 +130,21 @@ export const saveProductReview = (productId, review) => async(dispatch, getState
             error.response.data.message:
             error.message;
         dispatch({type:  PRODUCT_REVIEW_SAVE_FAIL, payload: message});
+    }
+}
+
+export const listProductCategories = () => async(dispatch) =>{
+    dispatch({
+        type: PRODUCT_CATEGORY_LIST_REQUEST
+    });
+    try {
+        const {data} = await Axios.get(`/api/products/categories`);
+        dispatch({
+            type: PRODUCT_CATEGORY_LIST_SUCCESS, payload: data
+        });
+    } catch (error) {
+        dispatch({
+            type: PRODUCT_CATEGORY_LIST_FAIL, payload: error.message
+        });
     }
 }
