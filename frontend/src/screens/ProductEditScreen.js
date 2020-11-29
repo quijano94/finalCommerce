@@ -7,6 +7,8 @@ import MessageBox from '../components/MessageBox';
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
 
 export default function ProductEditScreen(props){
+
+    const sellerMode = props.match.path.indexOf('/seller') >= 0;
     const productId = props.match.params.id;
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
@@ -29,7 +31,7 @@ export default function ProductEditScreen(props){
     const dispatch = useDispatch();
     useEffect(() =>{
         if(succesUpdate){
-            props.history.push('/productlist');
+            props.history.push(sellerMode ? '/productlist/seller' : '/productlist');
         }
         if(!product || product._id !== productId || succesUpdate){
             dispatch({type: PRODUCT_UPDATE_RESET});
@@ -43,7 +45,7 @@ export default function ProductEditScreen(props){
             setBrand(product.brand);
             setDescription(product.description);
         }
-    },[product, dispatch, productId, props.history, succesUpdate]);
+    },[product, dispatch, productId, props.history, succesUpdate, sellerMode]);
 
     const submitHandler = (e) =>{
         e.preventDefault();

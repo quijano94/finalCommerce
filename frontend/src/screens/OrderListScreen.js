@@ -11,14 +11,13 @@ export default function OrderListScreen(props){
     const orderList = useSelector(state => state.orderList);
     const {loading, error, orders} = orderList;
     const sellerMode = props.match.path.indexOf('/seller') >= 0;
-    const filterSellerMode = sellerMode? userInfo._id: '';
     const orderDelete = useSelector(state => state.orderDelete);
     const {loading: loadingDelete, error: errorDelete, success:successDelete} = orderDelete;
     const dispatch = useDispatch();
     useEffect(() =>{
         dispatch({type: ORDER_DELETE_RESET});
-        dispatch(listOrders(filterSellerMode));
-    },[dispatch, successDelete, filterSellerMode]);
+        dispatch(listOrders({seller: sellerMode? userInfo._id: ''}));
+    },[dispatch, successDelete, sellerMode, userInfo]);
 
     const deleteHandler = (order) =>{
         if(window.confirm('Are you sure to delete?')){

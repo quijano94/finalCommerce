@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Link, Route } from 'react-router-dom';
 import { signout } from './actions/userActions';
@@ -18,12 +18,13 @@ import SigninScreen from './screens/SigninScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
-import { listProducts } from './actions/productActions';
 import UserListScreen from './screens/UserListScreen';
 import CookieConsent/*, { Cookies }*/ from "react-cookie-consent";
 import UserEditScreen from './screens/UserEditScreen';
 import SellerRoute from './components/SellerRoute';
 import SellerScreen from './screens/SellerScreen';
+import SearchBox from './components/SearchBox';
+import SearchScreen from './screens/SearchScreen';
 
 
 function App() {
@@ -45,18 +46,10 @@ function App() {
         document.querySelector('.sidebar').classList.remove('open');
     };
     
-    const sellerId = '';
-    const category = '';
-    const[searchKeyword, setSearchKeyword] = useState('');
 
     const signoutHandler = () =>{
         dispatch(signout());
     }
-
-    const submitHandler = (e) =>{
-        e.preventDefault();
-        dispatch(listProducts(sellerId,category, searchKeyword));
-    };
   return ( 
       <BrowserRouter>
     <div className="grid-container">
@@ -66,12 +59,7 @@ function App() {
                     <Link className="brand" to="/">amazona</Link>
                 </div>
                 <div>
-                    <form className="search" onSubmit={submitHandler}>
-                        <div className="row">
-                            <input name="searchKeyword" onChange={(e) => setSearchKeyword(e.target.value)}></input>
-                            <button className="primary" type="submit"><i className="fa fa-search"></i></button>
-                        </div>
-                    </form>
+                    <Route render={({history}) => <SearchBox history={history}></SearchBox>}></Route>
                 </div>
                 <div>
                     <Link to="/cart">Cart
@@ -173,11 +161,12 @@ function App() {
                 <AdminRoute path="/orderlist" component={OrderListScreen} exact></AdminRoute>  
                 <AdminRoute path="/userlist" component={UserListScreen}></AdminRoute> 
                 <AdminRoute path="/user/:id/edit" component={UserEditScreen}></AdminRoute>
-                <AdminRoute exact path="/product/:id/edit" component={ProductEditScreen} ></AdminRoute>  
+                {/*<AdminRoute path="/product/:id/edit" component={ProductEditScreen} ></AdminRoute>*/}  
 
                 {/*Rutas de venderor para que exista un logeo */}
                 <SellerRoute path="/productlist/seller" component={ProductListScreen}></SellerRoute>
-                <SellerRoute path="/orderlist/seller" component={OrderListScreen}></SellerRoute>  
+                <SellerRoute path="/orderlist/seller" component={OrderListScreen}></SellerRoute> 
+                <SellerRoute path="/product/:id/edit" component={ProductEditScreen} ></SellerRoute>  
                 
 
                 {/*Rutas que pueden acceder sin logeo o sin información pasada*/}
@@ -188,6 +177,7 @@ function App() {
                 <Route path="/category/:id" component={HomeScreen} exact></Route>
                 <Route path="/" component={HomeScreen} exact></Route>
                 <Route path="/seller/:id" component={SellerScreen}></Route>
+                <Route path="/search/name/:name?" component={SearchScreen} exact></Route>
                 
                 
                 

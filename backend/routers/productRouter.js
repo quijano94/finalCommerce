@@ -10,8 +10,15 @@ const productRouter = express();
 productRouter.get('/', expressAsyncHandler(async(req,res)=>{
     const seller = req.query.seller || '';
     const sellerFilter  = seller ? {seller} : {};
+    const name = req.query.name || '';
+    const nameFilter  = name ? {
+        name :{
+            $regex: name,
+            $options: 'i',
+        }
+    } : {};
 
-    const category = req.query.category ? {category: req.query.category} : {};
+    /*const category = req.query.category ? {category: req.query.category} : {};
     const searchKeyword  = req.query.searchKeyword ? {
         name: {
             $regex: req.query.searchKeyword,
@@ -22,6 +29,9 @@ productRouter.get('/', expressAsyncHandler(async(req,res)=>{
         (req.query.sortOrder ===  'lowest' ? {price:-1}:{price:1})
         :{ _id:-1};
     const products = await Product.find({...sellerFilter,...category, ...searchKeyword}).sort(sortOrder).populate('seller','seller.name seller.logo');
+    */ 
+
+   const products = await Product.find({...sellerFilter,...nameFilter}).populate('seller','seller.name seller.logo');
     res.send(products);
 }));
 

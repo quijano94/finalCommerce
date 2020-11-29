@@ -9,7 +9,6 @@ export default function ProductListScreen(props){
     const userSignin = useSelector(state => state.userSignin);
     const {userInfo} = userSignin;
     const sellerMode = props.match.path.indexOf('/seller') >= 0;
-    const filterSellerMode = sellerMode? userInfo._id: '';
     const productList = useSelector(state => state.productList);
     const{ loading, error, products} = productList;
     const productCreate = useSelector(state => state.productCreate);
@@ -34,8 +33,8 @@ export default function ProductListScreen(props){
         if(successDelete){
             dispatch({type: PRODUCT_DELETE_RESET})
         }
-        dispatch(listProducts(filterSellerMode ));
-    },[dispatch,successCreate, createdProduct, props.history, successDelete, filterSellerMode])
+        dispatch(listProducts({seller: sellerMode? userInfo._id: ''} ));
+    },[dispatch,successCreate, createdProduct, props.history, successDelete, sellerMode, userInfo])
 
     const deleteHandler = (product) =>{
         if(window.confirm('Seguro que quieres borrar el producto?')){
