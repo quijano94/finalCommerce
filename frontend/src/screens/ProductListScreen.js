@@ -83,12 +83,15 @@ export default function ProductListScreen(props){
                                             <h2>{product.name}</h2>
                                         </Link>
                                     </div>
+                                    <div className="row center">
+                                        <Rating rating={product.rating} numReviews={product.numReviews}></Rating>
+                                    </div>
                                     <div className="row">
                                         <div>
-                                            <strong>Price: </strong>${product.price}
+                                            ${product.price}
                                         </div>
                                         <div>
-                                            <Rating rating={product.rating} numReviews={product.numReviews}></Rating>
+                                            <strong>Stock: </strong>{product.countInStock}
                                         </div>
                                     </div>
                                     <div className="row">
