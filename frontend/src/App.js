@@ -84,7 +84,7 @@ function App() {
                                     setDropdownSellerIsOpen(false);
                                     setDropdownAdminIsOpen(false);
                                 } } to="#">{userInfo.name} <i className="fa fa-caret-down"></i></Link>
-                                <ul className={`dropdown-content ${dropdownUserIsOpen ? 'openDropdown' : 'closeDropdown'}`}>
+                                <ul className={`dropdown-content ${dropdownUserIsOpen ? 'openDropdown' : ''}`}>
                                     <li>
                                         <Link onClick={() => setDropdownUserIsOpen(false)} to="/profile">Profile</Link>
                                     </li>
@@ -108,7 +108,7 @@ function App() {
                                     setDropdownUserIsOpen(false);
                                     setDropdownAdminIsOpen(false);
                                 } } to="#seller">Seller {' '} <i className="fa fa-caret-down"></i></Link>
-                                <ul className={`dropdown-content ${dropdownSellerIsOpen ? 'openDropdown' : 'closeDropdown'}`}>
+                                <ul className={`dropdown-content ${dropdownSellerIsOpen ? 'openDropdown' : ''}`}>
                                     <li>
                                         <Link onClick={() => setDropdownSellerIsOpen(false)} to="/productlist/seller">Products</Link>
                                     </li>
@@ -127,7 +127,7 @@ function App() {
                                     setDropdownUserIsOpen(false);
                                     setDropdownSellerIsOpen(false);
                                 } } to="#admin">Admin {' '} <i className="fa fa-caret-down"></i></Link>
-                                <ul className={`dropdown-content ${dropdownAdminIsOpen ? 'openDropdown' : 'closeDropdown'}`}>
+                                <ul className={`dropdown-content ${dropdownAdminIsOpen ? 'openDropdown' : ''}`}>
                                     <li>
                                         <Link onClick={() => setDropdownAdminIsOpen(false)} to="/dashboard">Dashboard</Link>
                                     </li>
