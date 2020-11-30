@@ -435,11 +435,9 @@ input {
   border-radius: .5rem;
 }
 
-@media (hover : hover){
-  .dropdown:hover .dropdown-content{
+.dropdown:hover .dropdown-content{
     display: block;
   }
-}
 
 .openDropdown{
   display: block;
@@ -467,12 +465,6 @@ input {
 .openDrop{
   display: block;
 }
-
-/*
-.drop:hover .drop-content{
-  display: block;
-}*/
-
 
 /* Aside */
 aside {

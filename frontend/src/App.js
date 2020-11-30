@@ -58,8 +58,17 @@ function App() {
     <div className="grid-container">
             <header className="row">
                 <div>
-                    <button type="button" className="open-sidebar" onClick={() => setSidebarIsOpen(true)}><i className="fa fa-bars"></i></button>
-                    <Link className="brand" to="/">amazona</Link>
+                    <button type="button" className="open-sidebar" onClick={() =>{
+                        setSidebarIsOpen(true);
+                        setDropdownUserIsOpen(false);
+                        setDropdownSellerIsOpen(false);
+                        setDropdownAdminIsOpen(false);
+                    } }><i className="fa fa-bars"></i></button>
+                    <Link onClick={() =>{
+                                    setDropdownUserIsOpen(false);
+                                    setDropdownSellerIsOpen(false);
+                                    setDropdownAdminIsOpen(false);
+                    } } className="brand" to="/">amazona</Link>
                 </div>
                 <div>
                     <Route render={({history}) => <SearchBox history={history}></SearchBox>}></Route>
@@ -159,7 +168,12 @@ function App() {
                 <ul className="categories">
                     <li>
                         <strong>Hola, {userInfo ? userInfo.name : (<Link to="/signin">Identificate</Link>)}</strong>
-                        <button onClick={() => setSidebarIsOpen(false)} className="close-sidebar" type="button">
+                        <button onClick={() => {
+                            setSidebarIsOpen(false)
+                            setDropdownUserIsOpen(false);
+                            setDropdownSellerIsOpen(false);
+                            setDropdownAdminIsOpen(false);
+                        }} className="close-sidebar" type="button">
                             <i className="fa fa-close"></i>
                         </button>
                     </li>
