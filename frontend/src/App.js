@@ -125,22 +125,10 @@ function App() {
                             <div className="drop">
                                 <Link to="#admin" onClick={() =>{
                                     setDropdownAdminIsOpen(dropdownAdminIsOpen ? false : true);
-                                    //setDropdownUserIsOpen(false);
-                                    //setDropdownSellerIsOpen(false);
-                                } }>Admin {' '} <i className="fa fa-caret-down"></i></Link>
-                                <ul className={`drop-content ${dropdownAdminIsOpen ? 'openDrop' : ''}`}>
-                                    <li>
-                                        <Link onClick={() => setDropdownAdminIsOpen(false)} to="/productlist">Products</Link>
-                                    </li>
-                                </ul>
-                            </div>
-                            {/*<div className="dropdown">
-                                <Link onClick={() =>{
-                                    setDropdownAdminIsOpen(dropdownAdminIsOpen ? false : true);
                                     setDropdownUserIsOpen(false);
                                     setDropdownSellerIsOpen(false);
-                                } } to="#admin">Admin {' '} <i className="fa fa-caret-down"></i></Link>
-                                <ul className={`dropdown-content ${dropdownAdminIsOpen ? 'openDropdown' : ''}`}>
+                                } } >Admin {' '} <i className="fa fa-caret-down"></i></Link>
+                                <ul className={`drop-content ${dropdownAdminIsOpen ? 'openDrop' : ''}`}>
                                     <li>
                                         <Link onClick={() => setDropdownAdminIsOpen(false)} to="/dashboard">Dashboard</Link>
                                     </li>
@@ -154,7 +142,7 @@ function App() {
                                         <Link onClick={() => setDropdownAdminIsOpen(false)} to="/userlist">Users</Link>
                                     </li>
                                 </ul>
-                            </div>*/}
+                            </div>
                             </>
                         )
                     }
