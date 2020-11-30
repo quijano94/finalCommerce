@@ -40,6 +40,9 @@ function App() {
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
     const [sidebarIsOpen, setSidebarIsOpen] = useState(false); 
+    const [dropdownAdminIsOpen, setDropdownAdminIsOpen] = useState(false); 
+    const [dropdownUserIsOpen, setDropdownUserIsOpen] = useState(false); 
+    const [dropdownSellerIsOpen, setDropdownSellerIsOpen] = useState(false); 
     const productCategoryList = useSelector(state => state.productCategoryList);
     const {loading:loadingCategories, error:errorCategories, categories} = productCategoryList;   
 
@@ -76,13 +79,17 @@ function App() {
                     {
                         userInfo ?(
                             <div className="dropdown">
-                                <Link to="#">{userInfo.name} <i className="fa fa-caret-down"></i></Link>
-                                <ul className="dropdown-content">
+                                <Link onClick={() =>{
+                                    setDropdownUserIsOpen(dropdownUserIsOpen ? false : true);
+                                    setDropdownSellerIsOpen(false);
+                                    setDropdownAdminIsOpen(false);
+                                } } to="#">{userInfo.name} <i className="fa fa-caret-down"></i></Link>
+                                <ul className={`dropdown-content ${dropdownUserIsOpen ? 'openDropdown' : 'closeDropdown'}`}>
                                     <li>
-                                        <Link to="/profile">Profile</Link>
+                                        <Link onClick={() => setDropdownUserIsOpen(false)} to="/profile">Profile</Link>
                                     </li>
                                     <li>
-                                        <Link to="/orderhistory">Order History</Link>
+                                        <Link onClick={() => setDropdownUserIsOpen(false)} to="/orderhistory">Order History</Link>
                                     </li>
                                     <li>
                                         <Link to="#signout" onClick={signoutHandler}>Sign Out</Link>
@@ -96,13 +103,17 @@ function App() {
                     {
                         userInfo && userInfo.isSeller && (
                             <div className="dropdown">
-                                <Link to="#seller">Seller {' '} <i className="fa fa-caret-down"></i></Link>
-                                <ul className="dropdown-content">
+                                <Link onClick={() =>{
+                                    setDropdownSellerIsOpen(dropdownSellerIsOpen ? false : true);
+                                    setDropdownUserIsOpen(false);
+                                    setDropdownAdminIsOpen(false);
+                                } } to="#seller">Seller {' '} <i className="fa fa-caret-down"></i></Link>
+                                <ul className={`dropdown-content ${dropdownSellerIsOpen ? 'openDropdown' : 'closeDropdown'}`}>
                                     <li>
-                                        <Link to="/productlist/seller">Products</Link>
+                                        <Link onClick={() => setDropdownSellerIsOpen(false)} to="/productlist/seller">Products</Link>
                                     </li>
                                     <li>
-                                        <Link to="/orderlist/seller">Orders</Link>
+                                        <Link onClick={() => setDropdownSellerIsOpen(false)} to="/orderlist/seller">Orders</Link>
                                     </li>
                                 </ul>
                             </div>
@@ -111,19 +122,23 @@ function App() {
                     {
                         userInfo && userInfo.isAdmin && (
                             <div className="dropdown">
-                                <Link to="#admin">Admin {' '} <i className="fa fa-caret-down"></i></Link>
-                                <ul className="dropdown-content">
+                                <Link onClick={() =>{
+                                    setDropdownAdminIsOpen(dropdownAdminIsOpen ? false : true);
+                                    setDropdownUserIsOpen(false);
+                                    setDropdownSellerIsOpen(false);
+                                } } to="#admin">Admin {' '} <i className="fa fa-caret-down"></i></Link>
+                                <ul className={`dropdown-content ${dropdownAdminIsOpen ? 'openDropdown' : 'closeDropdown'}`}>
                                     <li>
-                                        <Link to="/dashboard">Dashboard</Link>
+                                        <Link onClick={() => setDropdownAdminIsOpen(false)} to="/dashboard">Dashboard</Link>
                                     </li>
                                     <li>
-                                        <Link to="/productlist">Products</Link>
+                                        <Link onClick={() => setDropdownAdminIsOpen(false)} to="/productlist">Products</Link>
                                     </li>
                                     <li>
-                                        <Link to="/orderlist">Orders</Link>
+                                        <Link onClick={() => setDropdownAdminIsOpen(false)} to="/orderlist">Orders</Link>
                                     </li>
                                     <li>
-                                        <Link to="/userlist">Users</Link>
+                                        <Link onClick={() => setDropdownAdminIsOpen(false)} to="/userlist">Users</Link>
                                     </li>
                                 </ul>
                             </div>

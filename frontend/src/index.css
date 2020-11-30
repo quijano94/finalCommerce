@@ -364,8 +364,18 @@ input {
   border-radius: .5rem;
 }
 
-.dropdown:hover .dropdown-content{
+@media (hover : hover){
+  .dropdown:hover .dropdown-content{
+    display: block;
+  }
+}
+
+.openDropdown{
   display: block;
+}
+
+.closeDropdown{
+  display: none;
 }
 
 /* Checkout */
