@@ -344,37 +344,6 @@ input {
   border-radius: 0.5rem;
 }
 
-/* Dropdown*/
-
-.dropdown{
-  display: inline-block;
-  position: relative;
-}
-
-.dropdown-content{
-  position: absolute;
-  display: none;
-  right: 0;
-  min-width: 12rem;
-  padding: 1rem;
-  z-index: 1;
-  background-color: #203040;
-  margin: 0;
-  margin-top: .4rem;
-  border-radius: .5rem;
-}
-
-@media (hover : hover){
-  .dropdown:hover .dropdown-content{
-    display: block;
-  }
-}
-
-.openDropdown{
-  display: block;
-}
-
-
 /* Checkout */
 
 .checkout-steps > div{
@@ -445,6 +414,60 @@ input {
 .categories a:hover{
   background-attachment: #c0c0c0;;
 }
+
+/* Dropdown*/
+
+.dropdown{
+  display: inline-block;
+  position: relative;
+}
+
+.dropdown-content{
+  position: absolute;
+  display: none;
+  right: 0;
+  min-width: 12rem;
+  padding: 1rem;
+  z-index: 1;
+  background-color: #203040;
+  margin: 0;
+  margin-top: .4rem;
+  border-radius: .5rem;
+}
+
+@media (hover : hover){
+  .dropdown:hover .dropdown-content{
+    display: block;
+  }
+}
+
+.openDropdown{
+  display: block;
+}
+
+/* Dropdown Basado en aside */
+.drop{
+  display: inline-block;
+  position: relative;
+}
+
+.drop-content{
+  position: absolute;
+  display: none;
+  right: 0;
+  min-width: 12rem;
+  padding: 1rem;
+  z-index: 1;
+  background-color: #203040;
+  margin: 0;
+  margin-top: .4rem;
+  border-radius: .5rem;
+}
+
+.openDrop{
+  display: block;
+}
+
 
 /* Aside */
 aside {
