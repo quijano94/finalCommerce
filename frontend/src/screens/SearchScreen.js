@@ -9,7 +9,7 @@ import Product from '../components/Product';
 import { prices } from '../util';
 
 export default function SearchScreen(props){
-    const {name = 'all', category = 'all', min = 0, max = 0} = useParams();
+    const {name = 'all', category = 'all', min = 0, max = 1000000} = useParams();
     const dispatch = useDispatch();
     const productList = useSelector(state => state.productList);
     const {loading, error, products} = productList;
@@ -20,7 +20,7 @@ export default function SearchScreen(props){
         const filterCategory = filter.category || category;
         const filterName = filter.name || name;
         const filterMin = filter.min ? filter.min : filter.min === 0 ? 0 : min;
-        const filterMax = filter.max ? filter.min : filter.max === 0 ? 0 : max;
+        const filterMax = filter.max ? filter.max : filter.max === 1000000 ? 1000000 : max;
         return `/search/category/${filterCategory}/name/${filterName}/min/${filterMin}/max/${filterMax}`;
     }
 
