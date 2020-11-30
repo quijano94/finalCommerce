@@ -65,7 +65,11 @@ function App() {
                     <Route render={({history}) => <SearchBox history={history}></SearchBox>}></Route>
                 </div>
                 <div>
-                    <Link to="/cart">Cart
+                    <Link to="/cart" onClick={() =>{
+                                    setDropdownUserIsOpen(false);
+                                    setDropdownSellerIsOpen(false);
+                                    setDropdownAdminIsOpen(false);
+                    } }>Cart
                     {cartItems.length > 0 && (
                         <span className="badge">
                             {
@@ -78,13 +82,13 @@ function App() {
                     </Link>
                     {
                         userInfo ?(
-                            <div className="dropdown">
+                            <div className="drop">
                                 <Link onClick={() =>{
                                     setDropdownUserIsOpen(dropdownUserIsOpen ? false : true);
                                     setDropdownSellerIsOpen(false);
                                     setDropdownAdminIsOpen(false);
                                 } } to="#">{userInfo.name} <i className="fa fa-caret-down"></i></Link>
-                                <ul className={`dropdown-content ${dropdownUserIsOpen ? 'openDropdown' : ''}`}>
+                                <ul className={`drop-content ${dropdownUserIsOpen ? 'openDrop' : ''}`}>
                                     <li>
                                         <Link onClick={() => setDropdownUserIsOpen(false)} to="/profile">Profile</Link>
                                     </li>
