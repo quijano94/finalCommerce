@@ -23,12 +23,12 @@ import {
     PRODUCT_CATEGORY_LIST_FAIL,
  } from "../constants/productConstants"
 
-export const listProducts = ({seller = '', name = '', category = '' }/*seller = '',category = '', searchKeyword = '', sortOrder = ''*/) => async(dispatch) =>{
+export const listProducts = ({seller = '', name = '', category = '', min = 0 , max = 0 }/*seller = '',category = '', searchKeyword = '', sortOrder = ''*/) => async(dispatch) =>{
     dispatch({
         type: PRODUCT_LIST_REQUEST
     });
     try {
-        const {data} = await Axios.get(`/api/products?seller=${seller}&name=${name}&category=${category}`);
+        const {data} = await Axios.get(`/api/products?seller=${seller}&name=${name}&category=${category}&min=${min}&max=${max}`);
         //const {data} = await Axios.get('/api/products?seller='+ seller +"&category=" +category +"&searchKeyword=" + searchKeyword + "&sortOrder=" +sortOrder );
         dispatch({
             type: PRODUCT_LIST_SUCCESS, payload: data
