@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { listProducts } from '../actions/productActions';
+import {listProducts } from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import Product from '../components/Product';
@@ -26,7 +26,7 @@ export default function SearchScreen(props){
             name: name !== 'all' ? name: '', 
             category: category !== 'all' ? category: ''
          }));
-    },[dispatch,name, category]);
+    },[dispatch,name, category,]);
 
     return(
         <div>
@@ -46,22 +46,29 @@ export default function SearchScreen(props){
             <div className="row top">
                 <div className="col-1">
                     <h3>Department</h3>
-                    {
-                    loadingCategories ? (<LoadingBox></LoadingBox>)
-                    : 
-                    errorCategories ? (<MessageBox variant="danger">{errorCategories}</MessageBox>)
-                    : 
-                    (
+                    <div>
+                        {
+                        loadingCategories ? (<LoadingBox></LoadingBox>)
+                        : 
+                        errorCategories ? (<MessageBox variant="danger">{errorCategories}</MessageBox>)
+                        : 
+                        (
+                            <ul>
+                                {categories.map(c => (
+                                    <li key ={c}>
+                                        <Link className={c === category ?  'active': ''} to={getFilterUrl({category:c})}>{c}</Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        )
+                        }
+                    </div>
+                    <div>
+                        <h3>Price</h3>
                         <ul>
-                            {categories.map(c => (
-                                <li key ={c}>
-                                    <Link className={c === category ?  'active': ''} to={getFilterUrl({category:c})}>{c}</Link>
-                                </li>
-                            ))}
+                            
                         </ul>
-                    )
-                    }
-                    
+                    </div>                   
                 </div>
                 <div className="col-3">
                     {

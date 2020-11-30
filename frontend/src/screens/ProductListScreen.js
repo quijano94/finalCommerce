@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { createProduct, deleteProduct, listProducts } from '../actions/productActions';
+import { createProduct, deleteProduct, listProductCategories, listProducts } from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import Rating from '../components/Rating';
@@ -35,6 +35,7 @@ export default function ProductListScreen(props){
         if(successDelete){
             dispatch({type: PRODUCT_DELETE_RESET})
         }
+        dispatch(listProductCategories());
         dispatch(listProducts({seller: sellerMode? userInfo._id: ''} ));
     },[dispatch,successCreate, createdProduct, props.history, successDelete, sellerMode, userInfo])
 
@@ -127,7 +128,7 @@ export default function ProductListScreen(props){
                         ))
                     }
                 </div>
-                
+               
                 </>
             )
             }
