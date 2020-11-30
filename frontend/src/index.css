@@ -416,7 +416,7 @@ input {
 }
 
 /* Dropdown*/
-
+/*
 .dropdown{
   display: inline-block;
   position: relative;
@@ -443,7 +443,7 @@ input {
 
 .openDropdown{
   display: block;
-}
+}*/
 
 /* Dropdown Basado en aside */
 .drop{
@@ -465,6 +465,10 @@ input {
 }
 
 .openDrop{
+  display: block;
+}
+
+.drop:hover .drop-content{
   display: block;
 }
 
