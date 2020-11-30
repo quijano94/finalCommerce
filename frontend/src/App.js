@@ -102,13 +102,14 @@ function App() {
                     }
                     {
                         userInfo && userInfo.isSeller && (
-                            <div className="dropdown">
+                            <>
+                            <div className="drop">
                                 <Link onClick={() =>{
                                     setDropdownSellerIsOpen(dropdownSellerIsOpen ? false : true);
                                     setDropdownUserIsOpen(false);
                                     setDropdownAdminIsOpen(false);
                                 } } to="#seller">Seller {' '} <i className="fa fa-caret-down"></i></Link>
-                                <ul className={`dropdown-content ${dropdownSellerIsOpen ? 'openDropdown' : ''}`}>
+                                <ul className={`drop-content ${dropdownSellerIsOpen ? 'openDrop' : ''}`}>
                                     <li>
                                         <Link onClick={() => setDropdownSellerIsOpen(false)} to="/productlist/seller">Products</Link>
                                     </li>
@@ -117,6 +118,7 @@ function App() {
                                     </li>
                                 </ul>
                             </div>
+                            </>
                         )
                     }
                     {
