@@ -20,6 +20,7 @@ import {
     productUpdateReducer, 
 } from './reducers/productReducer';
 import { 
+    userChangePasswordReducer,
     userDeleteReducer,
     userDetailsReducer, 
     userListReducer, 
@@ -48,6 +49,7 @@ const reducer = combineReducers({
     cart: cartReducer,
     userSignin: userSigninReducer,
     userRegister: userRegisterReducer,
+    userChangePassword: userChangePasswordReducer,
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
     orderPay: orderPayReducer,

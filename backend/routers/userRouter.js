@@ -58,6 +58,28 @@ userRouter.post('/register', expressAsyncHandler(async(req,res) =>{
     });
 }));
 
+//Metodo para cambiar la contraseña
+userRouter.put('/changePassword', expressAsyncHandler(async(req,res) =>{
+    const user = await User.findOne({email: req.body.email});
+    if(user){
+        if(bcrypt.compareSync(req.body.password, user.password)){
+            res.status(404).send({message: 'The password can not be the old password'});
+            return;
+        }else{
+            user.email = req.body.email || user.email;
+            if(req.body.password){
+                user.password = bcrypt.hashSync(req.body.password, 8);
+            }
+            const updatedUser = await user.save();
+            res.send({
+                email: updatedUser.email,
+            });
+        }
+    }else{
+        res.status(404).send({message: 'The email does not exist'});
+    }
+}));
+
 userRouter.get('/:id', expressAsyncHandler(async(req,res) =>{
     const user = await User.findById(req.params.id);
     if(user){

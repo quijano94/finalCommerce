@@ -43,7 +43,7 @@ export default function SigninScreen(props){
                 {message && (<MessageBox variant="danger">{message.replace(/%20/g, ' ')}</MessageBox> )}
                 <div>
                     <label htmlFor="email">Email address</label>
-                    <input type="text" id="email" placeholder="Enter email" required onChange={e => setEmail(e.target.value)}>
+                    <input type="email" id="email" placeholder="Enter email" required onChange={e => setEmail(e.target.value)}>
                     </input>
                 </div>
                 <div>
@@ -60,6 +60,10 @@ export default function SigninScreen(props){
                     <div>
                         New customer?{' '}
                         <Link to={`/register?redirect=${redirect}`}>Create your account.</Link>
+                    </div>
+                    <div>
+                        Forgot your password?{' '}
+                        <Link to={`/changePassword?redirect=${redirect}`}>Change it.</Link>
                     </div>
                 </div>
             </form>

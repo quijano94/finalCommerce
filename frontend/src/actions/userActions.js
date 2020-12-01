@@ -25,6 +25,9 @@ import {
     USER_TOPSELLERS_LIST_REQUEST,
     USER_TOPSELLERS_LIST_SUCCESS,
     USER_TOPSELLERS_LIST_FAIL,
+    USER_CHANGE_PASSWORD_REQUEST,
+    USER_CHANGE_PASSWORD_SUCCESS,
+    USER_CHANGE_PASSWORD_FAIL,
 } from "../constants/userConstants"
 
 export const register = (name, email, password) => async(dispatch) =>{
@@ -43,6 +46,17 @@ export const register = (name, email, password) => async(dispatch) =>{
         
     } catch (error) {
         dispatch({type: USER_REGISTER_FAIL, payload: error.response && error.response.data.message ?
+            error.response.data.message: error.message})
+    }
+}
+
+export const changePassword = (email, password) => async(dispatch) =>{
+    dispatch({ type: USER_CHANGE_PASSWORD_REQUEST, payload: {email,password}});
+    try {
+        const {data} = await Axios.put('/api/users/changePassword', {email, password});
+        dispatch({type:USER_CHANGE_PASSWORD_SUCCESS, payload: data});        
+    } catch (error) {
+        dispatch({type: USER_CHANGE_PASSWORD_FAIL, payload: error.response && error.response.data.message ?
             error.response.data.message: error.message})
     }
 }

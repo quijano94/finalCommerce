@@ -1,4 +1,7 @@
 import { 
+    USER_CHANGE_PASSWORD_FAIL,
+    USER_CHANGE_PASSWORD_REQUEST,
+    USER_CHANGE_PASSWORD_SUCCESS,
     USER_DELETE_FAIL, 
     USER_DELETE_REQUEST, 
     USER_DELETE_RESET, 
@@ -53,6 +56,19 @@ export const userSigninReducer = (state = {}, action) =>{
             return {loading: false, error: action.payload};
         case USER_SIGNOUT:
             return {signout: true};    
+        default:
+            return state;
+    }
+}
+
+export const userChangePasswordReducer = (state = {}, action) =>{
+    switch (action.type) {
+        case USER_CHANGE_PASSWORD_REQUEST:
+            return {loading: true};
+        case USER_CHANGE_PASSWORD_SUCCESS:
+            return {loading:false, success: true};
+        case USER_CHANGE_PASSWORD_FAIL:
+            return {loading: false, error: action.payload};  
         default:
             return state;
     }

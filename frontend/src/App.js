@@ -28,6 +28,7 @@ import SearchScreen from './screens/SearchScreen';
 import { listProductCategories } from './actions/productActions';
 import MessageBox from './components/MessageBox';
 import LoadingBox from './components/LoadingBox';
+import ChangePasswordScreen from './screens/ChangePasswordScreen';
 
 
 function App() {
@@ -216,6 +217,7 @@ function App() {
 
                 {/*Rutas que pueden acceder sin logeo o sin información pasada*/}
                 <Route exact path="/product/:id" component={ProductScreen} ></Route>
+                <Route path="/changePassword" component={ChangePasswordScreen} ></Route>
                 <Route path="/register" component={RegisterScreen} ></Route>
                 <Route path="/signin" component={SigninScreen} ></Route>
                 <Route path="/cart/:id?" component={CartScreen} ></Route>
