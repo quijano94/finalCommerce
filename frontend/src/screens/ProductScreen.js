@@ -158,6 +158,7 @@ export default function ProductScreen(props){
                                     <li>
                                         <label htmlFor="rating">Rating</label>
                                         <select name="rating" id="rating" value={rating} onChange={(e) => setRating(e.target.value)}>
+                                            <option value="0">0 - ...</option>
                                             <option value="1">1 - Poor</option>
                                             <option value="2">2 - Fair</option>
                                             <option value="3">3 - Good</option>
