@@ -1,6 +1,7 @@
 import { 
     USER_CHANGE_PASSWORD_FAIL,
     USER_CHANGE_PASSWORD_REQUEST,
+    USER_CHANGE_PASSWORD_RESET,
     USER_CHANGE_PASSWORD_SUCCESS,
     USER_DELETE_FAIL, 
     USER_DELETE_REQUEST, 
@@ -68,7 +69,9 @@ export const userChangePasswordReducer = (state = {}, action) =>{
         case USER_CHANGE_PASSWORD_SUCCESS:
             return {loading:false, success: true};
         case USER_CHANGE_PASSWORD_FAIL:
-            return {loading: false, error: action.payload};  
+            return {loading: false, error: action.payload}; 
+        case USER_CHANGE_PASSWORD_RESET:  
+            return {}; 
         default:
             return state;
     }

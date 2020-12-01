@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { changePassword } from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import { USER_CHANGE_PASSWORD_RESET } from '../constants/userConstants';
 
 export default function ChangePasswordScreen(props){
 
@@ -28,11 +30,11 @@ export default function ChangePasswordScreen(props){
     }
 
     useEffect(() =>{
-        //Falta depurar aqui, ya despues del primer succes ya no jala. debo de reiniciar
         if(success){
+            dispatch({type: USER_CHANGE_PASSWORD_RESET});
             props.history.push(`/signin?redirect=${redirect}`);
         }
-    },[props.history, redirect, success])
+    },[props.history, redirect, success,error])
 
     return(
         <div>
@@ -44,6 +46,7 @@ export default function ChangePasswordScreen(props){
                 </div>
                 {loading && <div><LoadingBox></LoadingBox></div>}
                 {error && <MessageBox variant="danger">{error}</MessageBox>}
+                {success && <MessageBox variant="success">Password Changed Successfully</MessageBox>}
                 <div>
                     <label htmlFor="email">Email address</label>
                     <input type="email" id="email" placeholder="Enter email" required onChange={e => setEmail(e.target.value)}>
@@ -62,6 +65,13 @@ export default function ChangePasswordScreen(props){
                 <div>
                     <label />
                     <button className="primary" type="submit">Change Password</button>
+                </div>
+                <div>
+                    <label />
+                    <div>
+                        Already have an account?{' '}
+                        <Link to={`/signin?redirect=${redirect}`}>Sign-In.</Link>
+                    </div>
                 </div>
             </form>
         </div>
