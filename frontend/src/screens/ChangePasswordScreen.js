@@ -28,6 +28,7 @@ export default function ChangePasswordScreen(props){
     }
 
     useEffect(() =>{
+        //Falta depurar aqui, ya despues del primer succes ya no jala. debo de reiniciar
         if(success){
             props.history.push(`/signin?redirect=${redirect}`);
         }
