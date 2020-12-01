@@ -6,10 +6,11 @@ import {listProducts } from '../actions/productActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import Product from '../components/Product';
-import { prices } from '../util';
+import Rating from '../components/Rating';
+import { prices, ratings } from '../util';
 
 export default function SearchScreen(props){
-    const {name = 'all', category = 'all', min = 0, max = 1000000} = useParams();
+    const {name = 'all', category = 'all', min = 0, max = 1000000, rating = 0, order = 'newest'} = useParams();
     const dispatch = useDispatch();
     const productList = useSelector(state => state.productList);
     const {loading, error, products} = productList;
@@ -19,9 +20,11 @@ export default function SearchScreen(props){
     const getFilterUrl = (filter) =>{
         const filterCategory = filter.category || category;
         const filterName = filter.name || name;
+        const filterRating = filter.rating ? filter.rating : filter.rating === 0 ? 0 : rating;
+        const sortOrder = filter.order || order;
         const filterMin = filter.min ? filter.min : filter.min === 0 ? 0 : min;
         const filterMax = filter.max ? filter.max : filter.max === 1000000 ? 1000000 : max;
-        return `/search/category/${filterCategory}/name/${filterName}/min/${filterMin}/max/${filterMax}`;
+        return `/search/category/${filterCategory}/name/${filterName}/min/${filterMin}/max/${filterMax}/rating/${filterRating}/order/${sortOrder}`;
     }
 
     useEffect(() => {
@@ -30,8 +33,10 @@ export default function SearchScreen(props){
             category: category !== 'all' ? category: '',
             min,
             max,
+            rating,
+            order,
          }));
-    },[dispatch,name, category, min, max]);
+    },[dispatch,name, category, min, max, rating,order]);
 
     return(
         <div>
@@ -47,6 +52,15 @@ export default function SearchScreen(props){
                     </div>
                 )
                 }
+                <div>
+                    Sort by {' '}
+                    <select value={order} onChange={(e) =>{props.history.push(getFilterUrl({order: e.target.value}));}}>
+                        <option value="newest">Newest Arrivals</option>
+                        <option value="lowest">Price: Low to High</option>
+                        <option value="highest">Price: High to Low</option>
+                        <option value="toprated">Avg. Customer Review</option>
+                    </select>
+                </div>
             </div>
             <div className="row top">
                 <div className="col-1">
@@ -59,6 +73,9 @@ export default function SearchScreen(props){
                         : 
                         (
                             <ul>
+                                <li>
+                                    <Link className={'all' === category ?  'active': ''} to={getFilterUrl({category:'all'})}>Any</Link>
+                                </li>
                                 {categories.map(c => (
                                     <li key ={c}>
                                         <Link className={c === category ?  'active': ''} to={getFilterUrl({category:c})}>{c}</Link>
@@ -75,6 +92,20 @@ export default function SearchScreen(props){
                                 prices.map((p) => (
                                     <li key={p.name}>
                                         <Link to={getFilterUrl({min: p.min, max: p.max})} className={`${p.min}-${p.max}` === `${min}-${max}` ? 'active' : ''}>{p.name}</Link>
+                                    </li>
+                                ))
+                            }
+                        </ul>
+                    </div> 
+                    <div>
+                        <h3>Avg. Customer Review</h3>
+                        <ul>
+                            {
+                                ratings.map((r) => (
+                                    <li key={r.rating}>
+                                        <Link to={getFilterUrl({rating: r.rating})} className={`${r.rating}` === rating ? 'active' : ''}>
+                                            <Rating caption={' & up'} rating={r.rating}></Rating>
+                                        </Link>
                                     </li>
                                 ))
                             }

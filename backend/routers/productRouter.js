@@ -13,6 +13,8 @@ productRouter.get('/', expressAsyncHandler(async(req,res)=>{
     const category = req.query.category || '';
     const min = req.query.min && Number(req.query.min) !== 0 ? Number(req.query.min) : 0;
     const max = req.query.max && Number(req.query.max) !== 0 ? Number(req.query.max) : 0;
+    const rating = req.query.rating && Number(req.query.rating) !== 0 ? Number(req.query.rating) : 0;
+    const order = req.query.order || '';
     const name = req.query.name || '';    
     
     const sellerFilter  = seller ? {seller} : {};
@@ -23,12 +25,22 @@ productRouter.get('/', expressAsyncHandler(async(req,res)=>{
             $lte: max,
         }
     } : {};
+    const ratingFilter = rating ? {
+        rating: {
+            $gte: rating
+        }
+    } : {};
     const nameFilter  = name ? {
         name :{
             $regex: name,
             $options: 'i',
         }
     } : {};
+    const sortOrder = 
+        order === 'lowest' ? {price: 1} : 
+        order === 'highest' ? {price: -1} : 
+        order === 'toprated' ? {rating: -1} : 
+        {_id: -1};
 
     /*const category = req.query.category ? {category: req.query.category} : {};
     const searchKeyword  = req.query.searchKeyword ? {
@@ -47,8 +59,9 @@ productRouter.get('/', expressAsyncHandler(async(req,res)=>{
        ...sellerFilter,
        ...nameFilter,
        ...categoryFilter,
-       ...priceFilter
-    }).populate('seller','seller.name seller.logo');
+       ...priceFilter,
+       ...ratingFilter,
+    }).populate('seller','seller.name seller.logo').sort(sortOrder);
     res.send(products);
 }));
 
