@@ -7,6 +7,7 @@ import WhatsApp from 'react-whatsapp';
 
 export default function OrderHistoryScreen(props){
 
+    const numberWhatsapp = "+522292290974";
     const orderMineList = useSelector(state => state.orderMineList);
     const {loading, error, orders} = orderMineList;
     const dispatch = useDispatch();
@@ -44,7 +45,10 @@ export default function OrderHistoryScreen(props){
                                     <td>{order.isDelivered? order.deliveredAt.substring(0,10): 'No'}</td>
                                     <td>
                                         <button type="button" className="small" onClick={() => {props.history.push(`/order/${order._id}`)}}>Details</button>
-                                        <WhatsApp className="small" number="+522292290974" message={`Hola, me gustaria sabe el estado de mi pedido con número: ${order._id} a nombre de: ${order.shippingAddress.fullName}, con fecha de compra del: ${order.createdAt.substring(0,10)}`}>Ask for me!</WhatsApp>
+                                        {
+                                            !order.isDelivered &&
+                                            <WhatsApp className="small" number={numberWhatsapp} message={`Hola, me gustaria sabe el estado de mi pedido con número: *${order._id}* a nombre de: *${order.shippingAddress.fullName}*, con fecha de compra del: *${order.createdAt.substring(0,10)}*`} >Ask for me!</WhatsApp>                                         
+                                        }
                                     </td>
                                 </tr>
                             ))

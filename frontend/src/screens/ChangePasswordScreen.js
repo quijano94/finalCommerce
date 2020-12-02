@@ -24,9 +24,9 @@ export default function ChangePasswordScreen(props){
             alert('Email is empty');
         }else if(password !== confirmPassword){
             alert('Password and confirm password are not match');
-        }else{
+        }else if(window.confirm('Are your sure you want to change your password?')){
             dispatch(changePassword(email,password));
-        }
+        }    
     }
 
     useEffect(() =>{
