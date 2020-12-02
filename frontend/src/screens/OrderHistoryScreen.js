@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listOrderMine } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import WhatsApp from 'react-whatsapp';
 
 export default function OrderHistoryScreen(props){
 
@@ -43,6 +44,7 @@ export default function OrderHistoryScreen(props){
                                     <td>{order.isDelivered? order.deliveredAt.substring(0,10): 'No'}</td>
                                     <td>
                                         <button type="button" className="small" onClick={() => {props.history.push(`/order/${order._id}`)}}>Details</button>
+                                        <WhatsApp number="+522292290974" message={`Hola, me gustaria sabe el estado de mi pedido ${order._id} a nombre de ${order.shippingAddress.fullName}`}>Follow</WhatsApp>
                                     </td>
                                 </tr>
                             ))

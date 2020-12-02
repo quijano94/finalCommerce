@@ -34,7 +34,7 @@ export default function ChangePasswordScreen(props){
             dispatch({type: USER_CHANGE_PASSWORD_RESET});
             props.history.push(`/signin?redirect=${redirect}`);
         }
-    },[props.history, redirect, success,error])
+    },[props.history, redirect, success, dispatch])
 
     return(
         <div>
