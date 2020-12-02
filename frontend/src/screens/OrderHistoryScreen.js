@@ -44,7 +44,7 @@ export default function OrderHistoryScreen(props){
                                     <td>{order.isDelivered? order.deliveredAt.substring(0,10): 'No'}</td>
                                     <td>
                                         <button type="button" className="small" onClick={() => {props.history.push(`/order/${order._id}`)}}>Details</button>
-                                        <WhatsApp number="+522292290974" message={`Hola, me gustaria sabe el estado de mi pedido ${order._id} a nombre de ${order.shippingAddress.fullName}`}>Follow</WhatsApp>
+                                        <WhatsApp className="small" number="+522292290974" message={`Hola, me gustaria sabe el estado de mi pedido con número: ${order._id} a nombre de: ${order.shippingAddress.fullName}, con fecha de compra del: ${order.createdAt.substring(0,10)}`}>Ask for me!</WhatsApp>
                                     </td>
                                 </tr>
                             ))
