@@ -89,25 +89,25 @@ export default function ShippingAddressScreen(props){
                     addressMap ?
                     <div>
                         <label htmlFor="address">Address From Google</label>
-                        <input type="text" id="address" placeholder="Enter address" value={address}  onChange={(e) => setAddres(e.target.value)} ></input>
+                        <input type="text" id="address" placeholder="Enter address" value={address} required  onChange={(e) => setAddres(e.target.value)} ></input>
                     </div>
                     :(
                         <>
                         <div>
                             <label htmlFor="address">Address</label>
-                            <input type="text" id="address" placeholder="Enter address" value={address}  onChange={(e) => setAddres(e.target.value)} ></input>
+                            <input type="text" id="address" placeholder="Enter address" value={address} required  onChange={(e) => setAddres(e.target.value)} ></input>
                         </div>
                         <div>
                             <label htmlFor="city">City</label>
-                            <input type="text" id="city" placeholder="Enter city" value={city} onChange={(e) => setCity(e.target.value)} ></input>
+                            <input type="text" id="city" placeholder="Enter city" value={city} required onChange={(e) => setCity(e.target.value)} ></input>
                         </div>
                         <div>
                             <label htmlFor="postalCode">Postal Code</label>
-                            <input type="text" id="postalCode" placeholder="Enter postal code" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} ></input>
+                            <input type="text" id="postalCode" placeholder="Enter postal code" value={postalCode} required onChange={(e) => setPostalCode(e.target.value)} ></input>
                         </div>
                         <div>
                             <label htmlFor="country">Country</label>
-                            <input type="text" id="country" placeholder="Enter country" value={country} onChange={(e) => setCountry(e.target.value)} ></input>
+                            <input type="text" id="country" placeholder="Enter country" value={country} required onChange={(e) => setCountry(e.target.value)} ></input>
                         </div>
                         </>
                     )
