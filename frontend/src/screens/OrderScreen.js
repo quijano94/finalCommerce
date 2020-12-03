@@ -3,7 +3,7 @@ import {PayPalButton} from 'react-paypal-button-v2';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { deliverOrder, detailsOrder, payOrder } from '../actions/orderActions';
+import { deliverOrder, detailsOrder, payOrder, payOrderStripe } from '../actions/orderActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { ORDER_DELIVER_RESET, ORDER_PAY_RESET } from '../constants/orderConstants';
@@ -52,6 +52,12 @@ export default function OrderScreen(props){
 
     const successPaymentHandler = (paymentResult) =>{
         dispatch(payOrder(order, paymentResult));
+    };
+
+    const successPaymentHandlerStripe = () =>{
+        if(window.confirm('Are your sure you want mark the order as paid?')){
+            dispatch(payOrderStripe(order._id));
+        }  
     };
 
     const deliverHandler = () =>{
@@ -180,6 +186,15 @@ export default function OrderScreen(props){
                                         <PayPalButton currency="USD" amount={order.totalPrice} onSuccess={successPaymentHandler}>
                                         </PayPalButton> 
                                         </>)}
+                                    </li>
+                                )
+                            }
+                            {
+                                !order.isPaid && (order.paymentMethod === 'Stripe') && (
+                                    <li>
+                                        {errorPay && (<MessageBox variant="danger">{errorPay}</MessageBox>)}
+                                        {loadingPay && (<LoadingBox></LoadingBox>)}
+                                        <button type="button" className="primary block" onClick={successPaymentHandlerStripe}>Mark Pay Order</button>
                                     </li>
                                 )
                             }
