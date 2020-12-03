@@ -18,12 +18,12 @@ export default function ProductScreen(props){
     const productDetails = useSelector( state =>  state.productDetails); 
     const{loading, error, product} = productDetails;
     const productReviewSave = useSelector(state => state.productReviewSave);
-    const {success: successReviewSave,} = productReviewSave;
+    const {loading:loadingReviewSave, error:errorReviewSave, success: successReviewSave,} = productReviewSave;
 
     useEffect(() =>{
         if(successReviewSave){
             alert('Review Submitted successfully');
-            setRating(0);
+            setRating('');
             setComment('');
             dispatch({type: PRODUCT_REVIEW_SAVE_RESET});
         }
@@ -32,11 +32,17 @@ export default function ProductScreen(props){
 
     const submitHandler = (e) =>{
         e.preventDefault();
-        dispatch(saveProductReview(productId,{
-            name: userInfo.name,
-            rating: rating,
-            comment: comment,
-        }));
+        if(comment && rating){
+            dispatch(saveProductReview(productId,{
+                name: userInfo.name,
+                rating: rating,
+                comment: comment,
+                user: userInfo._id,
+            }));
+        }else{
+            alert('Please enter a comment and rating');
+        }
+        
     }
 
     const addToCartHandler = () =>{
@@ -131,55 +137,56 @@ export default function ProductScreen(props){
                         </div>
                     </div>
                 </div>
-                <div className="content-margined">
-                    <h3>Reviews</h3>
-                    {!product.reviews.length && <div>There is no reviews</div>}
-                    <ul className="review" id="reviews">
+                <div>
+                    <h3 id="reviews">Reviews</h3>
+                    {!product.reviews.length && <MessageBox>There is no reviews</MessageBox>}
+                    <ul>
                         {product.reviews.map(review =>(
                             <li key={review._id}>
-                                <div>
-                                    {review.name}
-                                </div>
-                                <div>
-                                    <Rating rating={review.rating} numReviews=''></Rating>
-                                </div>
-                                <div>
+                                <strong>{review.name}</strong>
+                                <Rating rating={review.rating} caption=" "></Rating>
+                                <p>
                                     {review.createdAt.substring(0,10)}
-                                </div>
-                                <div>
+                                </p>
+                                <p>
                                     {review.comment}
-                                </div>
+                                </p>
                             </li>
                         ))}  
                         <li>
-                            <h3>Write a customer review</h3>
-                            {userInfo ? <form onSubmit={submitHandler}>
-                                <ul className="form-container">
-                                    <li>
+                            {userInfo ? 
+                                <form className="form" onSubmit={submitHandler}>
+                                    <div>
+                                        <h3>Write a customer review</h3>
+                                    </div>
+                                    <div>
                                         <label htmlFor="rating">Rating</label>
                                         <select name="rating" id="rating" value={rating} onChange={(e) => setRating(e.target.value)}>
-                                            <option value="0">0 - ...</option>
+                                            <option value="">Select ...</option>
                                             <option value="1">1 - Poor</option>
                                             <option value="2">2 - Fair</option>
                                             <option value="3">3 - Good</option>
                                             <option value="4">4 - Very Good</option>
                                             <option value="5">5 - Excellent</option>
                                         </select>
-                                    </li>
-                                    <li>
+                                    </div>
+                                    <div>
                                         <label htmlFor="comment">Comment</label>
                                         <textarea name="comment" value={comment} onChange={(e) => setComment(e.target.value)}>
 
                                         </textarea>
-                                    </li>
-                                    <li>
+                                    </div>
+                                    <div>
+                                        <label></label>
                                         <button type="submit" className="button primary">Submit</button>
-                                    </li>
-                                </ul>
-                            </form>: 
-                            <div>
-                                Please <Link to="/signin">Sign-In</Link> to write a review.
-                            </div>
+                                    </div>
+                                    <div>
+                                        {loadingReviewSave && <LoadingBox></LoadingBox>}
+                                        {errorReviewSave && <MessageBox variant="danger">{errorReviewSave}</MessageBox>}
+                                    </div>
+                                </form>
+                                : 
+                                <MessageBox>Please <Link to="/signin">Sign-In</Link> to write a review.</MessageBox>
                             }
                         </li>   
                     </ul>

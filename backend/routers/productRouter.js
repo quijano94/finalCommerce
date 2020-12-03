@@ -139,17 +139,25 @@ productRouter.delete('/:id', isAuth, isAdmin, expressAsyncHandler(async(req,res)
 //Agregar un review
 productRouter.post('/:id/reviews', isAuth, expressAsyncHandler(async(req,res) =>{
     const product = await Product.findById(req.params.id);
+    //Condicion original, que solo permitia una subida por nombre, si lo cambiabas ya no entraba y podias poner mas.
+    const resultado = product.reviews.find(x => x.name == req.user.name );
+
     if(product){
-        const review = {
-            name: req.body.name,
-            rating: Number(req.body.rating),
-            comment: req.body.comment,
-        };
-        product.reviews.push(review);
-        product.numReviews = product.reviews.length;
-        product.rating = product.reviews.reduce((a,c) => c.rating + a, 0) / product.reviews.length;
-        const productUpdated = await product.save();
-        res.send({message: 'Review Saved Successfuly', data: productUpdated.reviews[productUpdated.reviews.length-1]});
+        if(product.reviews.find(x => x.user == req.user._id)){
+            res.status(404).send({message: `You already submitted a review` });
+        }else{
+            const review = {
+                name: req.user.name,
+                rating: Number(req.body.rating),
+                comment: req.body.comment,
+                user: req.user._id,
+            };
+            product.reviews.push(review);
+            product.numReviews = product.reviews.length;
+            product.rating = product.reviews.reduce((a,c) => c.rating + a, 0) / product.reviews.length;
+            const productUpdated = await product.save();
+            res.status(201).send({message: 'Review Created Successfully', data: productUpdated.reviews[productUpdated.reviews.length-1]});
+        }
     }else{
         res.status(404).send({message: 'Product Not Found'});
     }
