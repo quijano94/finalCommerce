@@ -23,7 +23,7 @@ export default function PaymentMethodScreen(props){
         props.history.push('/shipping');
     }
 
-    const [paymentMethod, setPaymentMethod] = useState('PayPal');
+    const [paymentMethod, setPaymentMethod] = useState('Stripe');
     const dispatch = useDispatch();
 
     const submitHandler = (e) =>{

@@ -40,7 +40,9 @@ export default function PlaceOrderScreen(props){
     const dispatch = useDispatch();
 
     const placeOrderHandler = () =>{
-        dispatch(createOrder({...cart, orderItems: cart.cartItems}));
+        if(window.confirm('Are your sure you want create the order?')){
+            dispatch(createOrder({...cart, orderItems: cart.cartItems}));
+        }      
     };
 
     useEffect(() => {
