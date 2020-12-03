@@ -53,10 +53,16 @@ export default function ShippingAddressScreen(props){
     };
 
     const chooseOnMap = () =>{
-        if(window.confirm('If you choose this option, you can not put your address manually')){
+        if(!addressMap){
+            if(window.confirm('If you choose this option, you can not put your address manually')){
+                dispatch(saveShippingAddress({fullName, address, city, postalCode, country, lat, lng}));
+                props.history.push('/map');
+            }  
+        }else{
             dispatch(saveShippingAddress({fullName, address, city, postalCode, country, lat, lng}));
             props.history.push('/map');
-        }    
+        }
+          
     }
 
     useEffect(() => {
