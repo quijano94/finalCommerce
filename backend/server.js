@@ -42,6 +42,9 @@ app.get('/api/config/paypal', (req,res) =>{
     res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
     //Para que funcione bien paypal, en vez de crear una cuenta de sandbox, debe de ser una de live. Y en env de root cambiar el clientId que sale
 });
+app.get('/api/config/google', (req,res) =>{
+    res.send(process.env.GOOGLE_API_KEY || '');
+});
 /*app.get('/api/uploads/s3', (req,res) =>{
     res.send(process.env.accessKeyID || 'accessKeyId');
     res.send(process.env.secretAccesKey || 'secretAccessKey');

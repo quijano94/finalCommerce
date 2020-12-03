@@ -71,10 +71,23 @@ export default function OrderScreen(props){
                                     Shipping
                                 </h2>
                                 <p>
-                                    <strong>Name:</strong>{order.shippingAddress.fullName} <br/>
-                                    <strong>Address:</strong>{order.shippingAddress.address},
-                                    {order.shippingAddress.city}, {order.shippingAddress.postalCode},
-                                    {order.shippingAddress.country}
+                                    <strong>Name:</strong>{' '}{order.shippingAddress.fullName} <br/>
+                                    <strong>Address:</strong>
+                                    {
+                                        order.shippingAddress.city === '.' ?
+                                        <>
+                                        {' '}
+                                        {order.shippingAddress.address}
+                                        </>
+                                        :
+                                        <>
+                                        {' '}
+                                        {order.shippingAddress.address},
+                                        {order.shippingAddress.city}, {order.shippingAddress.postalCode},
+                                        {order.shippingAddress.country}
+                                        </>
+                                    }
+                                    
                                 </p>
                                 {order.isDelivered? 
                                     <MessageBox variant="success">Delivered at {order.deliveredAt}</MessageBox>:

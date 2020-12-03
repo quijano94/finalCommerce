@@ -29,6 +29,7 @@ import { listProductCategories } from './actions/productActions';
 import MessageBox from './components/MessageBox';
 import LoadingBox from './components/LoadingBox';
 import ChangePasswordScreen from './screens/ChangePasswordScreen';
+import MapScreen from './screens/MapScreen';
 
 
 function App() {
@@ -199,6 +200,7 @@ function App() {
                 <PrivateRoute path="/payment" component={PaymentMethodScreen} ></PrivateRoute>
                 <PrivateRoute path="/shipping" component={ShippingAddressScreen} ></PrivateRoute>
                 <PrivateRoute exact path="/profile" component={ProfileScreen} ></PrivateRoute>
+                <PrivateRoute exact path="/map" component={MapScreen} ></PrivateRoute>
                 <PrivateRoute path="/orderhistory" component={OrderHistoryScreen} ></PrivateRoute>
                 <PrivateRoute path="/order/:id" component={OrderScreen} ></PrivateRoute>
 

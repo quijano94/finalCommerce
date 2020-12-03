@@ -26,6 +26,8 @@ export default function PlaceOrderScreen(props){
 
     const orderCreate = useSelector(state => state.orderCreate);
     const {loading, success, error, order} = orderCreate;
+    const userAddressMap = useSelector((state) => state.userAddressMap);
+    const { address: addressMap } = userAddressMap;
 
     const toPrice = (num) => Number(num.toFixed(2)); //Example: 5.123 => "5.12" => 5.12
     cart.itemsPrice = toPrice(
@@ -61,9 +63,21 @@ export default function PlaceOrderScreen(props){
                                 </h2>
                                 <p>
                                     <strong>Name:</strong>{cart.shippingAddress.fullName} <br/>
-                                    <strong>Address:</strong>{cart.shippingAddress.address},
-                                    {cart.shippingAddress.city}, {cart.shippingAddress.postalCode},
-                                    {cart.shippingAddress.country}
+                                    <strong>Address:</strong>
+                                    {addressMap ?
+                                        <>
+                                        {' '}
+                                        {cart.shippingAddress.address}
+                                        </>
+                                     :
+                                        <>
+                                        {' '}
+                                        {cart.shippingAddress.address},
+                                        {cart.shippingAddress.city},
+                                        {cart.shippingAddress.postalCode},
+                                        {cart.shippingAddress.country}
+                                        </>
+                                    }
                                 </p>
                             </div>
                         </li>

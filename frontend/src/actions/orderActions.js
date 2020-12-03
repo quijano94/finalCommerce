@@ -23,6 +23,7 @@ import {
     ORDER_DELIVER_SUCCESS,
     ORDER_DELIVER_FAIL,
  } from "../constants/orderConstants"
+import { USER_ADDRESS_MAP_RESET } from "../constants/userConstants";
 
 export const createOrder = (order) => async(dispatch, getState) =>{
     dispatch({type: ORDER_CREATE_REQUEST, payload: order});
@@ -34,8 +35,10 @@ export const createOrder = (order) => async(dispatch, getState) =>{
             },
         });
         dispatch({type: ORDER_CREATE_SUCCESS, payload: data.order});
-        dispatch({type: CART_EMPTY});  
-        localStorage.removeItem('cartItems');     
+        dispatch({type: CART_EMPTY}); 
+        dispatch({type: USER_ADDRESS_MAP_RESET}); 
+        localStorage.removeItem('cartItems');  
+        localStorage.removeItem('shippingAddress');   
     } catch (error) {
         dispatch({
             type: ORDER_CREATE_FAIL, 

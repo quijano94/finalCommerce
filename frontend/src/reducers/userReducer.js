@@ -1,4 +1,6 @@
 import { 
+    USER_ADDRESS_MAP_CONFIRM,
+    USER_ADDRESS_MAP_RESET,
     USER_CHANGE_PASSWORD_FAIL,
     USER_CHANGE_PASSWORD_REQUEST,
     USER_CHANGE_PASSWORD_RESET,
@@ -158,6 +160,17 @@ export const userTopSellerListReducer = (state = {loading:true}, action) =>{
             return {loading:false, users: action.payload};
         case USER_TOPSELLERS_LIST_FAIL:
             return {loading: false, error: action.payload}; 
+        default:
+            return state;
+    }
+}
+
+export const userAddressMapReducer = (state = {}, action) =>{
+    switch (action.type) {
+        case USER_ADDRESS_MAP_CONFIRM:
+            return {address: action.payload};
+        case USER_ADDRESS_MAP_RESET:
+            return {};
         default:
             return state;
     }
