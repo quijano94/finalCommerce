@@ -102,11 +102,11 @@ export default function ProfileScreen(props){
                                 <h2>Seller</h2>
                                 <div>
                                     <label htmlFor="sellerName">Seller Name</label>
-                                    <input id="sellerName" type="text" placeholder="Enter Seller Name" value={sellerName} onChange={(e) => setSellerName(e.target.value)}></input>
+                                    <input id="sellerName" type="text" placeholder="Enter Seller Name" value={sellerName} onChange={(e) => setSellerName(e.target.value)} required></input>
                                 </div>
                                 <div>
                                     <label htmlFor="sellerLogo">Seller Logo</label>
-                                    <input id="sellerLogo" type="text" placeholder="Enter Seller Logo" value={sellerLogo} onChange={(e) => setSellerLogo(e.target.value)}></input>
+                                    <input id="sellerLogo" type="text" placeholder="Enter Seller Logo" value={sellerLogo} onChange={(e) => setSellerLogo(e.target.value)} required></input>
                                 </div>
                                 <div>
                                     <label htmlFor="sellerDescription">Seller Description</label>

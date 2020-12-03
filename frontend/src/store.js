@@ -41,7 +41,7 @@ const initialState = {
         shippingAddress: localStorage.getItem('shippingAddress') ? JSON.parse(localStorage.getItem('shippingAddress')):  {},
         //TODO: usar la linea documentada para guardar la opcion seleccionada, y mandar por default paypal, usar localStorage
         //paymentMethod: localStorage.getItem('paymentMethod') ? JSON.parse(localStorage.getItem('paymentMethod')): 'PayPal' ,
-        paymentMethod: 'PayPal',
+        paymentMethod: 'Stripe',
     }
 };
 const reducer = combineReducers({

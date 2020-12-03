@@ -54,7 +54,7 @@ export default function UserEditScreen(props){
                 <>
                 <div>
                     <label htmlFor="name">Name</label>
-                    <input id="name" type="text" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)}></input>
+                    <input id="name" type="text" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} required></input>
                 </div>
                 <div>
                     <label htmlFor="email">Email</label>
