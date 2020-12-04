@@ -125,6 +125,19 @@ productRouter.put("/:id", isAuth, isSellerOrAdmin, expressAsyncHandler(async(req
     }
 }));
 
+//Validacion para actualizar el stock al realizar el pedido.
+productRouter.put("/:id/stock", isAuth, expressAsyncHandler(async(req, res) =>{
+    const productId = req.params.id;
+    const product = await Product.findById(productId);
+    if(product){
+        product.countInStock = req.body.countInStock;
+        const updatedProduct = await product.save();
+        res.send({message: 'Product Updated', data: updatedProduct});
+    }else{
+        res.status(404).send({ message: 'Product not found'  });
+    }
+}));
+
 //Borrar un producto
 productRouter.delete('/:id', isAuth, isAdmin, expressAsyncHandler(async(req,res) =>{
     const product = await Product.findById(req.params.id);

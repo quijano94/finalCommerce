@@ -94,6 +94,24 @@ export const updateProduct = (product) => async(dispatch,getState) =>{
     }
 }
 
+export const updateProductStock = (product) => async(dispatch,getState) =>{
+    dispatch({type: PRODUCT_UPDATE_REQUEST, payload:product});
+    const {userSignin:{userInfo}} = getState();
+    try {
+        const {data} = await Axios.put(`/api/products/${product._id}/stock`, product,{
+            headers:{Authorization: `Bearer ${userInfo.token}`},
+        });
+        dispatch({type: PRODUCT_UPDATE_SUCCESS, payload:data});
+        
+    } catch (error) {
+        const message = 
+            error.response && error.response.data.message ?
+            error.response.data.message:
+            error.message;
+        dispatch({type:  PRODUCT_UPDATE_FAIL, payload: message});
+    }
+}
+
 export const deleteProduct = (productId) => async(dispatch,getState) =>{
     dispatch({type: PRODUCT_DELETE_REQUEST, payload: productId});
     const{userSignin:{userInfo}} = getState();
