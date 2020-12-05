@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createOrder } from '../actions/orderActions';
@@ -10,7 +10,7 @@ import { ORDER_CREATE_RESET } from '../constants/orderConstants';
 
 export default function PlaceOrderScreen(props){
 
-    const [blockOrder, setBlockOrder] = useState(false);
+    let blockOrder = false;
     const cart = useSelector(state => state.cart);
     const userSignin = useSelector(state => state.userSignin);
     const productDetails = useSelector(state => state.productDetails);
@@ -43,82 +43,68 @@ export default function PlaceOrderScreen(props){
     cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
     const dispatch = useDispatch();
 
-    const checkAvailableProducts = async () =>{
-        cart.cartItems.map(async(item) =>{
+
+    const matchProducts = () =>{
+        cart.cartItems.map(async(item) => {
             console.log("ID: "+item.product+" Name: "+ item.name + " Qty: "+item.qty);
-            try {
-                await Axios.get(`/api/products/${item.product}`)
-                .then((response) =>{
-                    console.log("El producto se llama: "+item.name+", tú quieres: "+item.qty+" y hay en stock: "+response.data.countInStock);
-                    if(response.data.countInStock < item.qty){
-                        console.log("No hay en stock");
-                        setBlockOrder(true);
-                    }else{
-                        console.log("Si hay para comprar el producto: "+response.data.name);
-                    }
-                }).catch((error)=>{
-                    console.log(error);
-                }); 
-            } catch (error) {
-                console.log(error);
+            const resultado = await Axios.get(`/api/products/${item.product}`)
+            console.log(`El producto se llama: ${item.name}, tú quieres: ${item.qty} y hay en stock: ${resultado.data.countInStock}`);
+            if(resultado.data.countInStock < item.qty){
+                console.log("No hay en stock");
+                console.log(`La variable de block antes de tener el set es: ${blockOrder}`);
+                blockOrder = true;
+                console.log(`La variable de block despues de tener el set es: ${blockOrder}`);
+            }else{
+                console.log("Si hay para comprar el producto: "+resultado.data.name);
             }
         })
-    };
+    }
 
-    const updateStockProducts = async () =>{
-        cart.cartItems.map(async(item) =>{
+
+    const updateStockProducts = () =>{
+        cart.cartItems.map((item) =>{
             console.log("ID: "+item.product+" Name: "+ item.name + " Qty: "+item.qty);
-            try {
-                await Axios.get(`/api/products/${item.product}`)
-                .then(async(response) =>{
-                    console.log("El producto se llama: "+item.name+", tú quieres: "+item.qty+" y hay en stock: "+response.data.countInStock);
-                    const newProductStock = response.data.countInStock - item.qty;
-                    console.log("En el producto: "+item.name+" quedan ahora: "+newProductStock);
+            return Axios.get(`/api/products/${item.product}`)
+            .then((response) =>{
+                console.log("El producto se llama: "+item.name+", tú quieres: "+item.qty+" y hay en stock: "+response.data.countInStock);
+                const newProductStock = response.data.countInStock - item.qty;
+                console.log("En el producto: "+item.name+" quedan ahora: "+newProductStock);
 
-                    try {
-                        await Axios.put(`/api/products/${item.product}`, {
-                            //_id: productId,
-                            name: productDetail.name,
-                            price: productDetail.price,
-                            image: productDetail.image,
-                            category: productDetail.category,
-                            brand: productDetail.brand,
-                            countInStock: newProductStock,
-                            description: productDetail.description,
-                        },{
-                                headers:{Authorization: `Bearer ${userSignin.userInfo.token}`},
-                        }).then((response) =>{
+                Axios.put(`/api/products/${item.product}`, {
+                    name: productDetail.name,
+                    price: productDetail.price,
+                    image: productDetail.image,
+                    category: productDetail.category,
+                    brand: productDetail.brand,
+                    countInStock: newProductStock,
+                    description: productDetail.description,
+                },{
+                    headers:{Authorization: `Bearer ${userSignin.userInfo.token}`},
+                }).then((response) =>{
 
-                        }).catch((error) =>{
+                }).catch((error) =>{
                             console.log(error);
-                        });
-                    } catch (error) {
-                        console.log(error);
-                    }
-                    /*dispatch(updateProductStock({
-                        _id: item.product,
-                        countInStock: newProductStock,
-                    }));*/
-                }).catch((error)=>{
+                });
+            }).catch((error)=>{
                     console.log(error);
-                }); 
-            } catch (error) {
-                console.log(error);
-            }
+            }); 
         })
     };
 
 
     const placeOrderHandler = () =>{
-        checkAvailableProducts();
-        if(blockOrder){
-            alert('Product(s) unavailable');
-            props.history.push('/cart');
-        }else if(window.confirm('Are your sure you want create the order?')){
-            setBlockOrder(false);
-            updateStockProducts();
-            dispatch(createOrder({...cart, orderItems: cart.cartItems}));
-        }      
+        matchProducts();
+        setTimeout(function(){
+            console.log(`Despues de la ejecucion del metod el block es: ${blockOrder}`)
+            if(blockOrder){
+                alert('Product(s) unavailable');
+                props.history.push('/cart?message=Error. One of your products is unavailable.');
+            }else if(window.confirm('Are your sure you want create the order?')){
+                updateStockProducts();
+                dispatch(createOrder({...cart, orderItems: cart.cartItems}));
+                blockOrder = false;
+            } 
+        },2500)
     };
 
     useEffect(() => {
@@ -232,7 +218,7 @@ export default function PlaceOrderScreen(props){
                                 </div>
                             </li>
                             <li>
-                                <button type="button" onClick={placeOrderHandler} className="primary block" disabled={cart.cartItems.length === 0 || blockOrder}>
+                                <button type="button" onClick={placeOrderHandler} className="primary block" disabled={cart.cartItems.length === 0}>
                                     Place Order
                                 </button>
                             </li>
