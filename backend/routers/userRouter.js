@@ -140,8 +140,10 @@ userRouter.put('/:id', isAuth, isAdmin, expressAsyncHandler(async(req,res) => {
         user.name = req.body.name || user.name;
         user.email = req.body.email || user.email;
         //Parche debido al que el check en el editar perfil no jala bien, y el false no se cambia.
-        user.isSeller = (req.body.isSeller ? 'true': 'false') || (user.isSeller ? 'true': 'false');
-        user.isAdmin = (req.body.isAdmin ? 'true': 'false') || (user.isAdmin ? 'true' : 'false');
+        //user.isSeller = (req.body.isSeller ? 'true': 'false') || (user.isSeller ? 'true': 'false');
+        //user.isAdmin = (req.body.isAdmin ? 'true': 'false') || (user.isAdmin ? 'true' : 'false');
+        user.isAdmin = req.body.isAdmin;
+        user.isSeller = req.body.isSeller;
 
         const updatedUser = await user.save();
         res.send({message: 'User Updated', user:updatedUser});
