@@ -204,6 +204,25 @@ img.large{
   width: 99%;
 }
 
+/* Order History List*/
+.order-history-card{
+  border: .1rem #c0c0c0 solid;
+  background-color: #f8f8f8;
+  border-radius: .5rem;
+  margin:2rem;
+  max-width: 35rem;
+  width: 31rem;
+}
+
+.card-body-history{
+  padding: 1rem;
+}
+
+.card-body-history > *{
+  margin-bottom: 1.2rem;
+}
+
+
 /*Edit Product Card */
 .product-card{
   border: .1rem #c0c0c0 solid;

@@ -12,8 +12,6 @@ export default function CartScreen(props) {
     const qty = props.location.search? Number(props.location.search.split('=')[1]):1;
     const cart = useSelector(state => state.cart);
     const {cartItems, error} = cart;
-    const productDetails = useSelector(state => state.productDetails);
-    const {product: productDetail} = productDetails;
 
     useEffect(() =>{
         if(productId){
@@ -54,7 +52,7 @@ export default function CartScreen(props) {
                                             <div>
                                                 <select value={item.qty} onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value)))}>
                                                 {
-                                                    [...Array(productDetail.countInStock).keys()].map( x =>(
+                                                    [...Array(item.countInStock).keys()].map( x =>(
                                                         <option key={x+1} value={x+1} >{x+1}</option>
                                                     ))
                                                 }
