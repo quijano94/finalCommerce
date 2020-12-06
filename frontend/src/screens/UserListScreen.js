@@ -36,35 +36,46 @@ export default function UserListScreen(props){
                 error? (<MessageBox variant="danger">{error}</MessageBox>)
                 :
                 (
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>NAME</th>
-                                <th>EMAIL</th>
-                                <th>IS SELLER</th>
-                                <th>IS ADMIN</th>
-                                <th>ACTIONS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                users.map((user) =>(
-                                    <tr key={user._id}>
-                                        <td>{user._id}</td>
-                                        <td>{user.name}</td>
-                                        <td>{user.email}</td>
-                                        <td>{user.isSeller ? 'SI' : 'NO'}</td>
-                                        <td>{user.isAdmin ? 'SI': 'NO'}</td>
-                                        <td>
-                                            <button type="button" className="small" onClick={() => props.history.push(`/user/${user._id}/edit`)}>Edit</button>
-                                            <button type="button" className="small" onClick={() => deleteHandler(user)}>Delete</button>
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table>
+                    <>
+                    {users.length === 0 && <MessageBox>No Users Found</MessageBox>}
+                    <div className="row center">
+                        {
+                            users.map((user) => (
+                                <div key={user._id} className="order-history-card">
+                                    <div className="card-body-history">
+                                        <div className="row center price">
+                                            <strong>USER</strong>
+                                        </div>
+                                        <div className="row center">
+                                            <strong><i>{user._id}</i></strong>
+                                        </div>
+                                        <div className="row start">
+                                            <strong>NAME: </strong> {user.name}
+                                        </div>
+                                        <div className="row start">
+                                            <strong>EMAIL: </strong> {user.email}
+                                        </div>
+                                        <div className="row start">
+                                            <strong>SELLER: </strong> {user.isSeller ? 'SI' : 'NO'}
+                                        </div>
+                                        <div className="row start">
+                                            <strong>ADMIN: </strong> {user.isAdmin ? 'SI': 'NO'}
+                                        </div>
+                                        <div className="row">
+                                            <div>
+                                                <button type="button" className="small" onClick={() => props.history.push(`/user/${user._id}/edit`)}>Edit</button>
+                                            </div>
+                                            <div>
+                                                <button type="button" className="small" onClick={() => deleteHandler(user)}>Delete</button>
+                                            </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
+                    </>
+                    
                 )
             }
         </div>
