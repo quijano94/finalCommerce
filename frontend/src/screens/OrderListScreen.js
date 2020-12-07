@@ -36,37 +36,49 @@ export default function OrderListScreen(props){
                 {loading ? (<LoadingBox></LoadingBox>):
                 error? <MessageBox variant="danger">{error}</MessageBox>:
                 (
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>USER</th>
-                                <th>DATE</th>
-                                <th>TOTAL</th>
-                                <th>PAID</th>
-                                <th>DELIVERED</th>
-                                <th>ACTIONS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                orders.map((order) =>(
-                                    <tr key={order._id}>
-                                        <td>{order._id}</td>
-                                        <td>{order.user ? order.user.name : 'Deleted User'}</td>
-                                        <td>{order.createdAt.substring(0,10)}</td>
-                                        <td>{order.totalPrice.toFixed(2)}</td>
-                                        <td>{order.isPaid? order.paidAt.substring(0,10): 'No'}</td>
-                                        <td>{order.isDelivered? order.deliveredAt.substring(0,10): 'No'}</td>
-                                        <td>
-                                            <button type="button" className="small" onClick={() => {props.history.push(`/order/${order._id}`)}}>Details</button>
-                                            <button type="button" className="small" onClick={() => deleteHandler(order)}>Delete</button>
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table>
+                    <>
+                    {orders.length === 0 && <MessageBox>No Orders Found</MessageBox>}
+                    <div className="row center">
+                        {
+                            orders.map((order) =>(
+                                <div key={order._id} className="order-history-card">
+                                    <div className="card-body-history">
+                                        <div className="row center price">
+                                            <strong>ORDER</strong>
+                                        </div>
+                                        <div className="row center">
+                                            <strong><i>{order._id}</i></strong>
+                                        </div>
+                                        <div className="row start">
+                                            <strong>USER: </strong> {order.user ? order.user.name : 'Deleted User'}
+                                        </div>
+                                        <div className="row start">
+                                            <strong>DATE: </strong> {order.createdAt.substring(0,10)}
+                                        </div>
+                                        <div className="row start">
+                                            <strong>TOTAL: </strong> {order.totalPrice.toFixed(2)}
+                                        </div>
+                                        <div className="row start">
+                                            <strong>PAID: </strong> {order.isPaid? order.paidAt.substring(0,10): 'No'}
+                                        </div>
+                                        <div className="row start">
+                                            <strong>DELIVERED: </strong> {order.isDelivered? order.deliveredAt.substring(0,10): 'No'}
+                                        </div>
+                                        <div className="row">
+                                            <div>
+                                                <button type="button" className="small" onClick={() => {props.history.push(`/order/${order._id}`)}}>Details</button>
+                                            </div>
+                                            <div>
+                                                <button type="button" className="small" onClick={() => deleteHandler(order)}>Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
+                    
+                    </>
                 )
                 }
             </div>
