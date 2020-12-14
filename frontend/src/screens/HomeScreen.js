@@ -7,24 +7,25 @@ import MessageBox from '../components/MessageBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../actions/productActions';
 import { listTopSellers } from '../actions/userActions';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 export default function HomeScreen(props){
 
+    const { pageNumber =  1, } = useParams();
     const category = props.match.params.id ? props.match.params.id : '';
     const sellerMode = '';
     
     const dispatch = useDispatch();
     const productList = useSelector(state => state.productList);
-    const {loading, error, products} = productList;
+    const {loading, error, products, page, pages} = productList;
 
     const userTopSellersList = useSelector(state => state.userTopSellersList);
     const {loading: loadingSellers, error:errorSellers, users:sellers} = userTopSellersList;
 
     useEffect(() =>{
-        dispatch(listProducts(sellerMode,category));
+        dispatch(listProducts({sellerMode,category, pageNumber}));
         dispatch(listTopSellers());
-    }, [dispatch, category]);
+    }, [dispatch, category, pageNumber]);
 
     return(
         <>
@@ -72,7 +73,14 @@ export default function HomeScreen(props){
                 </>
                 
             )
-            }        
+            }
+            <div className="row center pagination">
+                {
+                    [...Array(pages).keys()].map(x => (
+                        <Link className={x+1 === page ? 'active' : ''} kye={x+1} to={`/pageNumber/${x+1}`}>{x+1}</Link>
+                    ))
+                }
+            </div>       
         </>
         
     );
